@@ -6,6 +6,7 @@ setup(
     license='MIT',
     description='Reusable functions for use in ML projects',
     long_description=open('README.md').read(),
+    long_description_content_type="text/markdown",
     classifiers=[
         'Programming Language :: Python :: 3'
     ],
