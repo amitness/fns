@@ -5,6 +5,17 @@ def flatten(x):
     return chain.from_iterable(x)
 
 
+def array_except_element(arr, elem):
+    """
+    Get copy of array without an element.
+
+    >>> array_except_element([1, 2, 3], 3)
+    [1, 2]
+    """
+    elem_index = arr.index(elem)
+    return arr[:elem_index] + arr[elem_index + 1:]
+
+
 def sort_dict_by_value(d, reverse=False):
     """
     Sort items in dictionary by value.
