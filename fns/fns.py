@@ -1,9 +1,5 @@
 from itertools import chain
-
-
-def flatten(x):
-    return chain.from_iterable(x)
-
+from more_itertools import flatten
 
 def array_except_element(arr, elem):
     """

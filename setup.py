@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='fns',
-    version='0.0.6',
+    version='0.0.7',
     license='MIT',
     description='Reusable functions for use in ML projects',
     long_description=open('README.md').read(),
@@ -13,6 +13,6 @@ setup(
     author='Amit Chaudhary',
     author_email='meamitkc@gmail.com',
     url='https://github.com/amitness/fns',
-    install_requires=['numpy'],
+    install_requires=['numpy', 'more_itertools'],
     packages=find_packages(),
 )
