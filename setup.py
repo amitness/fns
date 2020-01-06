@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
+from fns import __VERSION__
 
 setup(
     name='fns',
-    version='0.0.9',
+    version=__VERSION__,
     license='MIT',
     description='Reusable functions for use in ML projects',
     long_description=open('README.md').read(),
