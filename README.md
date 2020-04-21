@@ -1,4 +1,4 @@
-# fns
+# fns ![Release](https://github.com/amitness/fns/workflows/Release/badge.svg)
 Reusable functions for Machine Learning.
 
 
