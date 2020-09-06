@@ -1,6 +1,7 @@
 from itertools import chain
 from more_itertools import flatten
 
+
 def array_except_element(arr, elem):
     """
     Get copy of array without an element.
@@ -20,3 +21,12 @@ def sort_dict_by_value(d, reverse=False):
     {'silver': 25, 'gold': 40}
     """
     return dict(sorted(d.items(), key=lambda item: item[1], reverse=reverse))
+
+
+def reverse_mapping(dictionary):
+    """
+    Swap mapping from key: value to value:key
+    :param dictionary: Python Dictionary
+    :return: Dictionary with key and value swapped
+    """
+    return {v: k for k, v in dictionary.items()}
