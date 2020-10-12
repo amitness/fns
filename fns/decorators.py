@@ -20,3 +20,10 @@ def show_shapes(fxn):
         return out_df
 
     return inner
+
+
+def deduplicate(f):
+    def inner(*args, **kwargs):
+        return list(set(f(*args, **kwargs)))
+
+    return inner
