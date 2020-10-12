@@ -11,3 +11,12 @@ def remove_multiple_space(t: str) -> str:
     Modified from: https://github.com/fastai/fastai/blob/master/fastai/text/core.py
     """
     return _re_space.sub(' ', t)
+
+
+def remove_new_lines(text: str) -> str:
+    """
+    Strip away new lines at end.
+    """
+    if isinstance(text, str):
+        return text.replace('\\n', '').strip()
+    return text
