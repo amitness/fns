@@ -1,4 +1,5 @@
-from itertools import chain
+import heapq
+
 from more_itertools import flatten
 
 
@@ -30,3 +31,12 @@ def reverse_mapping(dictionary):
     :return: Dictionary with key and value swapped
     """
     return {v: k for k, v in dictionary.items()}
+
+
+def top_n_dict(dictionary, n: int = 10):
+    """
+    Get top n largest values from the dictionary.
+    :param dictionary: Python dictionary
+    :param n: Number of keys to pick
+    """
+    return dict(heapq.nlargest(n, dictionary.items(), key=lambda item: item[1]))
