@@ -33,7 +33,7 @@ def reverse_mapping(dictionary):
     return {v: k for k, v in dictionary.items()}
 
 
-def top_n_dict(dictionary, n: int = 10):
+def top_n_from_dict(dictionary, n: int = 10):
     """
     Get top n largest values from the dictionary.
     :param dictionary: Python dictionary
