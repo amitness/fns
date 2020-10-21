@@ -1,4 +1,5 @@
 import heapq
+import json
 
 from more_itertools import flatten
 
@@ -40,3 +41,10 @@ def top_n_from_dict(dictionary, n: int = 10):
     :param n: Number of keys to pick
     """
     return dict(heapq.nlargest(n, dictionary.items(), key=lambda item: item[1]))
+
+
+def read_json(json_path):
+    """Read json file from a path."""
+    with open(json_path, 'r') as fp:
+        data = json.load(fp)
+    return data
