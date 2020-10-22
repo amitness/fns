@@ -22,3 +22,13 @@ def offset_by_one(x, sequence_length=3):
     sl = sequence_length
     return [(x[i:i + sl], x[i + 1:i + sl + 1])
             for i in range(0, len(x) - sl - 1, sl)]
+
+
+def num_words(text: str):
+    """
+    Counts the number of words using whitespace as delimiter.
+
+    :param text: Sentence
+    :return: Number of words
+    """
+    return len(text.split())
