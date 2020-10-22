@@ -5,6 +5,8 @@ import pickle
 
 from more_itertools import flatten
 
+from fns.text import md5_hash
+
 
 def array_except_element(arr, elem):
     """
@@ -92,7 +94,7 @@ def hash_file(file_object):
     :return: MD5 hash of the file
     """
     # Calculate hash
-    unique_hash = hashlib.md5(file_object.read()).hexdigest()
+    unique_hash = md5_hash(file_object.read())
 
     # Reset file pointer to start
     file_object.seek(0)
