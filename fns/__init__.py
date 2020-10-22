@@ -1,3 +1,3 @@
 from .fns import *
 
-__VERSION__ = '0.4.4'
+__VERSION__ = '0.4.5'
