@@ -1,5 +1,6 @@
 import heapq
 import json
+import pickle
 
 from more_itertools import flatten
 
@@ -44,7 +45,28 @@ def top_n_from_dict(dictionary, n: int = 10):
 
 
 def read_json(json_path):
-    """Read json file from a path."""
+    """
+    Read json file from a path.
+    """
     with open(json_path, 'r') as fp:
         data = json.load(fp)
     return data
+
+
+def write_json(item, path, mode='w'):
+    """
+    Save json to a file.
+    """
+
+    with open(path, mode=mode) as fp:
+        json.dump(item, fp)
+
+
+def read_pickle(path):
+    with open(path, 'rb') as fp:
+        return pickle.load(fp)
+
+
+def write_pickle(item, path):
+    with open(path, 'wb') as fp:
+        return pickle.dump(item, fp)
