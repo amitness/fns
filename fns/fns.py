@@ -1,3 +1,4 @@
+import hashlib
 import heapq
 import json
 import pickle
@@ -82,3 +83,18 @@ def parse_manual(parser, command):
     """
     args = command.split()
     return parser.parse_args(args=args)
+
+
+def hash_file(file_object):
+    """
+    Calculate hash of file.
+    :param file: File object
+    :return: MD5 hash of the file
+    """
+    # Calculate hash
+    unique_hash = hashlib.md5(file_object.read()).hexdigest()
+
+    # Reset file pointer to start
+    file_object.seek(0)
+
+    return unique_hash
