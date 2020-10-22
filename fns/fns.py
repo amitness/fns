@@ -70,3 +70,15 @@ def read_pickle(path):
 def write_pickle(item, path):
     with open(path, 'wb') as fp:
         return pickle.dump(item, fp)
+
+
+def parse_manual(parser, command):
+    """
+    Use argument parser in notebooks.
+
+    :param parser: ArgumentParser
+    :param command: Command line arguments as string
+    :return: Parserd argument as namespace
+    """
+    args = command.split()
+    return parser.parse_args(args=args)
