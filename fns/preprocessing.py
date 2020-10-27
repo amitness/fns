@@ -4,7 +4,31 @@ import re
 from fns.json_encoders import NpEncoder
 
 # Compiled regular expressions
-_re_space = re.compile(' {2,}')
+_re_space = re.compile(r' {2,}')
+_re_hashtag = re.compile(r'#')
+_re_retweet = re.compile(r'^RT[\s]+')
+_re_hyperlink = re.compile(r'https?:\/\/.*[\r\n]*')
+
+
+def remove_hashtag(t: str) -> str:
+    """
+    Remove hashtag from the text.
+    """
+    return _re_hashtag.sub('', t)
+
+
+def remove_retweet(t: str) -> str:
+    """
+    Remove RT from the text.
+    """
+    return _re_retweet.sub('', t)
+
+
+def remove_hyperlink(t: str) -> str:
+    """
+    Remove RT from the text.
+    """
+    return _re_hyperlink.sub('', t)
 
 
 def remove_multiple_space(t: str) -> str:
