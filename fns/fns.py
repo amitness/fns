@@ -1,7 +1,6 @@
-import hashlib
-import heapq
 import json
 import pickle
+from collections import Counter
 
 from more_itertools import flatten
 
@@ -38,13 +37,22 @@ def reverse_mapping(dictionary):
     return {v: k for k, v in dictionary.items()}
 
 
+def percent_dict(key_value):
+    total = sum(key_value.values())
+    return {key: value / total * 100.0 for key, value in key_value.items()}
+
+
+def top(data, n=5):
+    return dict(Counter(data).most_common(n))
+
+
 def top_n_from_dict(dictionary, n: int = 10):
     """
     Get top n largest values from the dictionary.
     :param dictionary: Python dictionary
     :param n: Number of keys to pick
     """
-    return dict(heapq.nlargest(n, dictionary.items(), key=lambda item: item[1]))
+    return top(dictionary, n=n)
 
 
 def read_json(json_path):

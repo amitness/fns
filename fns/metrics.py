@@ -1,5 +1,6 @@
 import math
 from collections import Counter
+import numpy as np
 
 
 def baseline_accuracy(labels):
@@ -33,3 +34,8 @@ def n_clusters(total_rows):
     :return:
     """
     return int(math.sqrt(total_rows))
+
+
+def vector_similarity(u, v):
+    angle = np.dot(u, v) / (np.linalg.norm(u) * np.linalg.norm(v))
+    return float(angle)
