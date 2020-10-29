@@ -5,13 +5,14 @@ import csv
 def create_download_link(dataframe,
                          filename,
                          file_type='csv',
-                         index=False):
+                         index=False,
+                         header=True):
     if file_type == 'csv':
         dataframe_csv = dataframe.to_csv(index=index)
     elif file_type == 'tsv':
         dataframe_csv = dataframe.to_csv(index=index,
                                          sep='\t',
-                                         header=False,
+                                         header=header,
                                          quoting=csv.QUOTE_NONNUMERIC)
     else:
         raise Exception('Invalid file_type. Allowed values are "csv" and "tsv".')
