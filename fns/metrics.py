@@ -1,3 +1,4 @@
+import math
 from collections import Counter
 
 
@@ -19,3 +20,16 @@ def missing_value_percent(df):
     """
     num_rows = len(df)
     return (df.isna().sum() / num_rows * 100.0).sort_values(ascending=False)
+
+
+def n_clusters(total_rows):
+    """
+    Generate number of clusters to create.
+
+    Heuristic:
+    Number of clusters = square root of total data points
+
+    :param total_rows: Total number of data points
+    :return:
+    """
+    return int(math.sqrt(total_rows))
