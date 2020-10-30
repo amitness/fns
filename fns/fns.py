@@ -1,7 +1,7 @@
 import json
 import pickle
 from collections import Counter
-
+import os
 from more_itertools import flatten
 
 from fns.text import md5_hash
@@ -108,3 +108,7 @@ def hash_file(file_object):
     file_object.seek(0)
 
     return unique_hash
+
+
+def num_files(path):
+    return len(os.listdir(path))
