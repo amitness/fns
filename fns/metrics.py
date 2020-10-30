@@ -23,16 +23,22 @@ def missing_value_percent(df):
     return (df.isna().sum() / num_rows * 100.0).sort_values(ascending=False)
 
 
-def n_clusters(total_rows):
+def n_clusters(data):
     """
     Generate number of clusters to create.
 
     Heuristic:
     Number of clusters = square root of total data points
 
-    :param total_rows: Total number of data points
+    :param data: Total number of data points or the data point itself
     :return:
     """
+    if type(data) is int:
+        total_rows = data
+    elif type(data) is list:
+        total_rows = len(set(data))
+    else:
+        raise Exception('The type must be list or integer')
     return int(math.sqrt(total_rows))
 
 
