@@ -23,6 +23,10 @@ def missing_value_percent(df):
     return (df.isna().sum() / num_rows * 100.0).sort_values(ascending=False)
 
 
+def na_percent(df):
+    return missing_value_percent(df)
+
+
 def n_clusters(data):
     """
     Generate number of clusters to create.
