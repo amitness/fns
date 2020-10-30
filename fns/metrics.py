@@ -35,10 +35,8 @@ def n_clusters(data):
     """
     if type(data) is int:
         total_rows = data
-    elif type(data) is list:
-        total_rows = len(set(data))
     else:
-        raise Exception('The type must be list or integer')
+        total_rows = len(set(data))
     return int(math.sqrt(total_rows))
 
 
