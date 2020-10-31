@@ -42,3 +42,12 @@ def display_all() -> None:
     import pandas as pd
     pd.set_option('display.max_colwidth', None)
     pd.set_option('display.max_rows', None)
+
+
+def explore_df(df):
+    null_df = pd.DataFrame(df.isnull().sum(), columns=['num_nulls'])
+    dtype_df = pd.DataFrame(df.dtypes, columns=['dtype'])
+    return (df.T.sample(1, axis=1)
+            .join([dtype_df, null_df])
+            .rename_axis('Columns')
+            )
