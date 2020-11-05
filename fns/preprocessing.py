@@ -1,5 +1,6 @@
 import json
 import re
+import string
 
 from fns.json_encoders import NpEncoder
 
@@ -47,6 +48,10 @@ def remove_new_lines(text: str) -> str:
     if isinstance(text, str):
         return text.replace('\\n', '').strip()
     return text
+
+
+def remove_punctuation(text):
+    return ''.join(t for t in text if t not in string.punctuation)
 
 
 def normalize_json(json_data):

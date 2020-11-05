@@ -1,4 +1,5 @@
 import hashlib
+from typing import List
 
 
 def md5_hash(text):
@@ -36,3 +37,10 @@ def num_words(text: str):
     :return: Number of words
     """
     return len(text.split())
+
+
+def unique_chars(texts: List[str]):
+    """
+    Get a list of unique characters from list of text.
+    """
+    return sorted(set(''.join(texts)))
