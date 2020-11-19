@@ -1,6 +1,7 @@
 from typing import Dict
 
 import pandas as pd
+import numpy as np
 
 
 def read_dict(data: Dict):
@@ -51,3 +52,12 @@ def explore_df(df):
             .join([dtype_df, null_df])
             .rename_axis('Columns')
             )
+
+
+def is_outlier(values):
+    q1 = np.quantile(values, 0.25)
+    q3 = np.quantile(values, 0.75)
+    iqr = q3 - q1
+    lower_threshold = q1 - 1.5 * iqr
+    upper_threshold = q3 + 1.5 * iqr
+    return (values < lower_threshold) | (values > upper_threshold)
