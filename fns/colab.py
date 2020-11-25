@@ -5,10 +5,8 @@ def run_foreground(cmd):
     """from http://blog.kagesenshi.org/2008/02/teeing-python-subprocesspopen-output.html
     """
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    stdout = []
     while True:
         line = p.stdout.readline()
-        stdout.append(line)
         print(line.strip())
         if line == '' and p.poll() != None:
             break
@@ -16,7 +14,7 @@ def run_foreground(cmd):
 
 
 def run_background(command):
-    subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+    subprocess.Popen(command, shell=True)
 
 
 def jupyter():
