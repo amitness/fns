@@ -12,7 +12,7 @@ from fns.text import *
 from fns.vision import *
 from fns.fns import *
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.cluster import KMeans, AffinityPropagation, AgglomerativeClustering
@@ -24,7 +24,7 @@ from sklearn.preprocessing import normalize, scale, minmax_scale
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 from sklearn.metrics.pairwise import cosine_distances, cosine_similarity, euclidean_distances
 import matplotlib.pyplot as plt
-from itertools import chain, product
+from itertools import chain, product, permutations, combinations, islice
 from functools import lru_cache
 from collections import Counter, OrderedDict, defaultdict
 from pathlib import Path
