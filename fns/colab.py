@@ -1,4 +1,5 @@
 import subprocess
+import os
 
 
 def run_foreground(cmd):
@@ -18,6 +19,10 @@ def run_background(command):
 
 
 def jupyter():
-    command = 'nohup jupyter notebook --no-browser --allow-root --ip="127.0.0.1" --port="6006" &'
+    from google.colab import drive
+    drive.mount('/content/drive')
+    os.chdir('/content/drive/MyDrive/colab/')
+    run_background('pip install jupyterlab --upgrade -qqq')
+    command = 'nohup jupyter lab --notebook-dir="/content/drive/MyDrive/colab" --no-browser --allow-root --ip="0.0.0.0" --port="6006" &'
     run_background(command)
     run_foreground('npx localtunnel --port 6006')
