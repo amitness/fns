@@ -1,5 +1,6 @@
 import subprocess
 import os
+import time
 
 
 def run_foreground(cmd):
@@ -25,4 +26,5 @@ def jupyter():
     run_background('nohup pip install jupyterlab --upgrade -qqq &')
     command = 'nohup jupyter lab --notebook-dir="/content/drive/MyDrive/colab" --no-browser --allow-root --ip="0.0.0.0" --port="6006" &'
     run_background(command)
+    time.sleep(5)
     run_foreground('npx localtunnel --port 6006')
