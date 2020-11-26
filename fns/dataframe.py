@@ -61,3 +61,27 @@ def is_outlier(values):
     lower_threshold = q1 - 1.5 * iqr
     upper_threshold = q3 + 1.5 * iqr
     return (values < lower_threshold) | (values > upper_threshold)
+
+
+def to_excel(path: str, df,
+             sheet_name: str,
+             index: bool = False,
+             mode: str = 'a') -> None:
+    """
+    Add a dataframe to an existing Excel file.
+
+    Parameters
+    ----------
+    path: Path of the excel file
+    df: Pandas DataFrame
+    sheet_name: The sheet name to save in
+    index: Save or remove index
+    mode: 'a' for append or 'w' for write
+
+    Returns: None
+    -------
+    """
+    with pd.ExcelWriter(path, mode=mode) as writer:
+        df.to_excel(writer,
+                    sheet_name=sheet_name,
+                    index=index)
