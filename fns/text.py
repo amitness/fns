@@ -44,3 +44,20 @@ def unique_chars(texts: List[str]):
     Get a list of unique characters from list of text.
     """
     return sorted(set(''.join(texts)))
+
+
+def is_non_ascii(text: str) -> bool:
+    """
+    Check if text has non-ascci characters.
+
+    Useful heuristic to find text containing emojis and non-english
+    characters.
+
+    :param text: A sentence
+    :return: True if the text contains non-ascii characters
+    """
+    try:
+        text.encode('ascii')
+        return False
+    except UnicodeEncodeError:
+        return True
