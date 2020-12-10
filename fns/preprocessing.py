@@ -9,6 +9,19 @@ _re_space = re.compile(r' {2,}')
 _re_hashtag = re.compile(r'#')
 _re_retweet = re.compile(r'^RT[\s]+')
 _re_hyperlink = re.compile(r'https?:\/\/.*[\r\n]*')
+_re_hyphen_word = re.compile('[a-zA-Z]+-[a-zA-Z]+')
+
+
+def combine_hyphenated_word(text: str) -> str:
+    """
+    Combine words in text that contain hypen.
+
+    Example: e-mail to email
+    :param text: A sentence
+    :return: Processed sentence
+    """
+    return ' '.join(w.replace('-', '') if _re_hyphen_word.match(w) else w
+                    for w in text.split())
 
 
 def remove_hashtag(t: str) -> str:
