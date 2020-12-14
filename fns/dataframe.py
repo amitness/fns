@@ -4,6 +4,10 @@ import pandas as pd
 import numpy as np
 
 
+def fake_df():
+    return pd.util.testing.makeDataFrame()
+
+
 def read_dict(data: Dict):
     """
     Create a dataframe from dictionary with unequal elements.
