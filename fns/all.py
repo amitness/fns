@@ -29,3 +29,11 @@ from functools import lru_cache
 from collections import Counter, OrderedDict, defaultdict
 from pathlib import Path
 import math
+
+try:
+    import torch
+    import torch.optim as optim
+    import torch.nn as nn
+    from torch.utils.data import Dataset, TensorDataset, DataLoader
+except ImportError:
+    pass
