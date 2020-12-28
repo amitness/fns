@@ -10,6 +10,7 @@ _re_hashtag = re.compile(r'#')
 _re_retweet = re.compile(r'^RT[\s]+')
 _re_hyperlink = re.compile(r'https?:\/\/.*[\r\n]*')
 _re_hyphen_word = re.compile('[a-zA-Z]+-[a-zA-Z]+')
+_re_comma = re.compile(r',{2,}')
 
 
 def combine_hyphenated_word(text: str) -> str:
@@ -52,6 +53,16 @@ def remove_multiple_space(t: str) -> str:
     Modified from: https://github.com/fastai/fastai/blob/master/fastai/text/core.py
     """
     return _re_space.sub(' ', t)
+
+
+def remove_multiple_commas(t: str) -> str:
+    """
+    Substitute multiple consecutive commas with a single comma.
+
+    >>> remove_multiple_commas('a,,b,c')
+    'a,b,c'
+    """
+    return _re_comma.sub(',', t)
 
 
 def remove_new_lines(text: str) -> str:
