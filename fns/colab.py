@@ -28,3 +28,15 @@ def jupyter():
     run_background(command)
     time.sleep(5)
     run_foreground('npx localtunnel --port 6006')
+
+
+def vscode(subdomain='amit',
+           port=9000,
+           config_save_path='/content/drive/MyDrive/colab/.vscode'):
+    from google.colab import drive
+    drive.mount('/content/drive')
+    subprocess.run(['curl', '-fsSL', 'https://code-server.dev/install.sh', '-O'])
+    subprocess.run(['bash', 'install.sh', '--version', '3.5.0'])
+    print(f'https://amit.loca.lt/?folder=/content/drive/MyDrive/colab')
+    run_foreground(
+        f'code-server --port {port} --auth none --disable-telemetry --force --user-data-dir {config_save_path} & npx localtunnel -p {port} -s {subdomain} --allow-invalid-cert')
