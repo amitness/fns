@@ -1,6 +1,23 @@
 import math
 from collections import Counter
 import numpy as np
+import timeit
+
+
+def benchmark_function(fn,
+                       repeat: int = 5):
+    """
+    Benchmark time taken for a function and return metrics.
+    :param fn: A python function
+    :param repeat: Number of samples
+    :return:
+    """
+    iteration_times = timeit.repeat(fn,
+                                    repeat=repeat,
+                                    number=1)
+    return {'time': iteration_times,
+            'mean': np.mean(iteration_times),
+            'std': np.std(iteration_times)}
 
 
 def baseline_accuracy(labels):
