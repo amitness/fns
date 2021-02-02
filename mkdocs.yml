@@ -69,7 +69,7 @@ plugins:
             show_source: true
             show_category_heading: true
       watch:
-        - nexxt
+        - fns
 
 # Extra JS
 extra_javascript:
