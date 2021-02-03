@@ -1,7 +1,17 @@
 import time
+from typing import Callable
 
 
-def timeit(func):
+def timeit(func: Callable) -> Callable:
+    """
+    Decorator to calculate time taken for a function to complete.
+
+    Args:
+        func: Python Function
+
+    Returns:
+        Decorated function
+    """
     start_time = time.time()
 
     def inner(*args, **kwargs):
@@ -12,7 +22,7 @@ def timeit(func):
     return inner
 
 
-def show_shapes(fxn):
+def show_shapes(fxn: Callable) -> Callable:
     """
     Decorator to log dataframe shape before and after applying a function.
 
@@ -32,7 +42,7 @@ def show_shapes(fxn):
     return inner
 
 
-def deduplicate(f):
+def deduplicate(fxn: Callable) -> Callable:
     """
     Decorator to deduplicate results of a function.
 
@@ -44,13 +54,13 @@ def deduplicate(f):
     ```
 
     Args:
-        f: Function
+        fxn: Function
 
     Returns:
         Function
     """
 
     def inner(*args, **kwargs):
-        return list(set(f(*args, **kwargs)))
+        return list(set(fxn(*args, **kwargs)))
 
     return inner

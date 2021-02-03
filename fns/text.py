@@ -2,20 +2,56 @@ import hashlib
 from typing import List
 
 
-def md5_hash(text):
+def md5_hash(text: str) -> str:
+    """
+    Generate MD5 hash of a text.
+
+    Args:
+        text: String
+
+    Returns:
+        MD5 hash
+    """
     return hashlib.md5(text.encode('utf-8')).hexdigest()
 
 
-def sha256hash(text):
+def sha256hash(text: str) -> str:
+    """
+    Generate MD5 hash of a text.
+
+    Args:
+        text: String
+
+    Returns:
+        SHA256 hash
+    """
     return hashlib.sha256(text.encode('utf-8')).hexdigest()
 
 
-def window(tokens, size=3):
+def window(tokens,
+           size: int = 3):
+    """
+    Generate samples for a window size.
+
+    Example:
+    ```python
+    >>> window(['a', 'b', 'c', 'd'], size=2)
+    [(['a', 'b'], 'c'), (['b', 'c'], 'd')]
+    ```
+
+    Args:
+        tokens: List of tokens
+        size: Window size
+
+    Returns:
+        List of windowed samples
+    """
     return [(tokens[i: i + size], tokens[i + size])
             for i in range(0, len(tokens) - size, 1)]
 
 
-def offset_by_one(x, sequence_length=3):
+def offset_by_one(x,
+                  sequence_length: int = 3):
     """
     Generate a list of small sequences offset by 1.
 

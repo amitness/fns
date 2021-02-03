@@ -15,7 +15,13 @@ REASON_WORDS = ['because', 'reason', 'as a result', 'since', 'therefore']
 
 
 @lru_cache(1)
-def onegram_count():
+def onegram_count() -> pd.DataFrame:
+    """
+    Get counts of 1-gram from Peter Norvig's list.
+
+    Returns:
+        DataFrame with one-gram, count and idf scores.
+    """
     df = pd.read_csv('https://norvig.com/ngrams/count_1w.txt',
                      sep='\t',
                      header=None,

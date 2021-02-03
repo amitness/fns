@@ -1,3 +1,5 @@
+from typing import List, Union
+
 from sklearn.cluster import KMeans
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
@@ -7,9 +9,20 @@ from sklearn.pipeline import Pipeline
 import pandas as pd
 
 
-def cluster_text(texts,
+def cluster_text(texts: List[str],
                  embedding: str = 'tf-idf',
-                 return_dataframe=True):
+                 return_dataframe: bool = True) -> Union[pd.DataFrame, List[int]]:
+    """
+    Quickly cluster a list of sentences for EDA.
+
+    Args:
+        texts: List of sentences
+        embedding: 'tf-idf' or 'count'
+        return_dataframe: Whether to return as dataframe or a list of cluster labels
+
+    Returns:
+
+    """
     n = n_clusters(texts)
     if embedding == 'tf-idf':
         vectorizer = TfidfVectorizer(strip_accents='ascii',

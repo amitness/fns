@@ -7,7 +7,7 @@ site_author: Amit Chaudhary
 # Repository
 repo_url: https://github.com/amitness/fns
 repo_name: amitness/fns
-edit_uri: "" #disables edit button
+edit_uri: "https://github.com/amitness/fns/edit/master/docs/"
 
 # Copyright
 copyright: Copyright &copy; 2021 Maintained by <a href="https://amitness.com" target="_blank">Amit Chaudhary</a>.
@@ -15,8 +15,8 @@ copyright: Copyright &copy; 2021 Maintained by <a href="https://amitness.com" ta
 # Configuration
 theme:
   name: material
-#  logo: static/images/logo.png
-#  favicon: static/images/favicon.ico
+  #  logo: static/images/logo.png
+  #  favicon: static/images/favicon.ico
   palette:
     primary: teal
     accent: teal
@@ -80,4 +80,4 @@ extra_javascript:
 # Page tree
 nav:
   - Home:
-    - Index: index.md
+      - Index: index.md

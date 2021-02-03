@@ -1,12 +1,12 @@
 import math
 from collections import Counter
-from typing import Dict
+from typing import Dict, Callable, List
 
 import numpy as np
 import timeit
 
 
-def benchmark_function(fn,
+def benchmark_function(fn: Callable,
                        repeat: int = 5) -> Dict:
     """
     Benchmark time taken for a function and return metrics.
@@ -26,7 +26,7 @@ def benchmark_function(fn,
             'std': np.std(iteration_times)}
 
 
-def baseline_accuracy(labels) -> float:
+def baseline_accuracy(labels: List) -> float:
     """
     Get accuracy for always majority class classifier.
 
@@ -54,7 +54,7 @@ def missing_value_percent(df):
         df: Pandas DataFrame
 
     Returns:
-
+        Percentage of missing value in each column.
     """
     num_rows = len(df)
     return (df.isna().sum() / num_rows * 100.0).sort_values(ascending=False)

@@ -1,6 +1,7 @@
 import json
 import re
 import string
+from typing import Dict
 
 from fns.json_encoders import NpEncoder
 
@@ -128,7 +129,7 @@ def remove_punctuation(text: str) -> str:
     return ''.join(t for t in text if t not in string.punctuation)
 
 
-def normalize_json(json_data):
+def normalize_json(json_data: Dict) -> Dict:
     """
     Convert any non-standard types in dictionary to basic types.
 
