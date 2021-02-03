@@ -17,11 +17,20 @@ def window(tokens, size=3):
 
 def offset_by_one(x, sequence_length=3):
     """
-    :param x: Python list
-    :param sequence_length: Chunk size
+    Generate a list of small sequences offset by 1.
 
+    Usage:
+
+    ```python
     >>> offset_by_one([1, 2, 3, 4, 5], sequence_length=3)
     [([1, 2, 3], [2, 3, 4])]
+    ```
+
+    Args:
+        x: Python list
+        sequence_length: Chunk size
+
+    Returns:
 
     """
     sl = sequence_length
@@ -29,19 +38,28 @@ def offset_by_one(x, sequence_length=3):
             for i in range(0, len(x) - sl - 1, sl)]
 
 
-def num_words(text: str):
+def num_words(text: str) -> int:
     """
     Counts the number of words using whitespace as delimiter.
 
-    :param text: Sentence
-    :return: Number of words
+    Args:
+        text: Sentence
+
+    Returns:
+        Number of words
     """
     return len(text.split())
 
 
-def unique_chars(texts: List[str]):
+def unique_chars(texts: List[str]) -> List[str]:
     """
     Get a list of unique characters from list of text.
+
+    Args:
+        texts: List of sentences
+
+    Returns:
+        A sorted list of unique characters
     """
     return sorted(set(''.join(texts)))
 
@@ -53,8 +71,11 @@ def is_non_ascii(text: str) -> bool:
     Useful heuristic to find text containing emojis and non-english
     characters.
 
-    :param text: A sentence
-    :return: True if the text contains non-ascii characters
+    Args:
+        text: Sentence
+
+    Returns:
+        True if the text contains non-ascii characters.
     """
     try:
         text.encode('ascii')

@@ -5,6 +5,8 @@ import time
 
 def run_foreground(cmd: str) -> None:
     """
+    Run a bash command in foreground.
+
     Reference: http://blog.kagesenshi.org/2008/02/teeing-python-subprocesspopen-output.html
 
     Args:
@@ -22,11 +24,26 @@ def run_foreground(cmd: str) -> None:
     return None
 
 
-def run_background(command):
+def run_background(command: str) -> None:
+    """
+    Run a bash command in background.
+
+    Args:
+        command: Bash command
+
+    Returns:
+        None
+    """
     subprocess.Popen(command, shell=True)
 
 
-def jupyter():
+def jupyter() -> None:
+    """
+    Start a jupyter lab server using localtunnel.
+
+    Returns:
+        None
+    """
     from google.colab import drive
     drive.mount('/content/drive')
     os.chdir('/content/drive/MyDrive/colab/')
@@ -37,9 +54,20 @@ def jupyter():
     run_foreground('npx localtunnel --port 6006')
 
 
-def vscode(subdomain='amitness',
-           port=9000,
-           config_save_path='/content/drive/MyDrive/colab/.vscode'):
+def vscode(subdomain: str = 'amitness',
+           port: int = 9000,
+           config_save_path: str = '/content/drive/MyDrive/colab/.vscode') -> None:
+    """
+    Start VSCode server which persists all settings and extensions.
+
+    Args:
+        subdomain: Subdomain for localtunnel.
+        port: Port for running code-server
+        config_save_path: Path in Google Drive to save VSCode settings
+
+    Returns:
+        None
+    """
     from google.colab import drive
     drive.mount('/content/drive')
     subprocess.run(['curl', '-fsSL', 'https://code-server.dev/install.sh', '-O'])

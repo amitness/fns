@@ -1,11 +1,9 @@
 ## Documentation
 
 ::: fns.colab
-::: fns.constants
 ::: fns.decorators
-::: fns.exceptions
-::: fns.json_encoders
 ::: fns.metrics
 ::: fns.preprocessing
+::: fns.streamlit_utils
 ::: fns.text
 ::: fns.vision
