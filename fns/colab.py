@@ -3,8 +3,15 @@ import os
 import time
 
 
-def run_foreground(cmd):
-    """from http://blog.kagesenshi.org/2008/02/teeing-python-subprocesspopen-output.html
+def run_foreground(cmd: str) -> None:
+    """
+    Reference: http://blog.kagesenshi.org/2008/02/teeing-python-subprocesspopen-output.html
+
+    Args:
+        cmd: Bash command
+
+    Returns:
+        None
     """
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     while True:
