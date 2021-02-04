@@ -8,3 +8,6 @@ Install via [pip](https://pypi.org/project/fns).
 ```bash
 pip install fns
 ```
+
+## Documentation
+The documentation is available [here](https://amitness.com/fns/).

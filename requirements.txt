@@ -1,2 +1,1 @@
 numpy
-more_itertools
