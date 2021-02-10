@@ -22,7 +22,7 @@ from sklearn.decomposition import PCA, TruncatedSVD, NMF
 from sklearn.manifold import TSNE
 from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV, cross_val_score
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer, HashingVectorizer
-from sklearn.preprocessing import normalize, scale, minmax_scale
+from sklearn.preprocessing import normalize, scale, minmax_scale, OneHotEncoder
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 from sklearn.metrics.pairwise import cosine_distances, cosine_similarity, euclidean_distances
 import matplotlib.pyplot as plt
