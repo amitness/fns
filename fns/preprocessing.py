@@ -118,6 +118,20 @@ def remove_new_lines(text: str) -> str:
     return text
 
 
+def remove_separator(text: str) -> str:
+    """
+    Keep only alphabet, number and space.
+
+    Args:
+        text:
+
+    Returns:
+
+    """
+    no_separator_regex = re.compile(r'[^a-zA-Z0-9\s]')
+    return no_separator_regex.sub('', text)
+
+
 def remove_punctuation(text: str) -> str:
     """
     Remove all punctuations from a text.

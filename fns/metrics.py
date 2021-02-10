@@ -87,3 +87,21 @@ def n_clusters(data) -> int:
 def vector_similarity(u, v) -> float:
     angle = np.dot(u, v) / (np.linalg.norm(u) * np.linalg.norm(v))
     return float(angle)
+
+
+def jaccard(x, y) -> float:
+    """
+    Compute jaccard similarity (intersection over union).
+
+    Args:
+        x: Array-like object
+        y: Array-like object
+
+    Returns:
+        Intersection Over Union score
+    """
+    s1 = set(x)
+    s2 = set(y)
+    if len(s1) == 0 and len(s2) == 0:
+        return 0
+    return len(s1 & s2) / len(s1 | s2)

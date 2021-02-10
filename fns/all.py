@@ -11,6 +11,8 @@ from fns.streamlit_utils import *
 from fns.text import *
 from fns.vision import *
 from fns.fns import *
+from fns.plot import *
+from sklearn.dummy import DummyRegressor, DummyClassifier
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB

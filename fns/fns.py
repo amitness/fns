@@ -232,3 +232,17 @@ def num_files(path: Union[Path, str]) -> int:
         Number of files
     """
     return len(os.listdir(path))
+
+
+def ngrams(tokens: List,
+           n: int):
+    """
+
+    Args:
+        tokens: List of elements
+        n: N-gram size
+
+    Returns:
+        List of ngrams
+    """
+    return [tokens[i:i + n] for i in range(len(tokens) - n + 1)]
