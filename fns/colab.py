@@ -1,6 +1,7 @@
 import subprocess
 import os
 import time
+from importlib import import_module
 
 
 def run_foreground(cmd: str) -> None:
@@ -68,7 +69,7 @@ def vscode(subdomain: str = 'amitness',
     Returns:
         None
     """
-    from google.colab import drive
+    drive = import_module('google.colab.drive')
     drive.mount('/content/drive')
     subprocess.run(['curl', '-fsSL', 'https://code-server.dev/install.sh', '-O'])
     subprocess.run(['bash', 'install.sh', '--version', '3.5.0'])
@@ -76,3 +77,20 @@ def vscode(subdomain: str = 'amitness',
     print(f'https://{subdomain}.loca.lt/?folder=/content/drive/MyDrive/colab')
     run_foreground(
         f'code-server --port {port} --auth none --disable-telemetry --force --user-data-dir {config_save_path} & npx localtunnel -p {port} -s {subdomain} --allow-invalid-cert')
+
+
+def expose_port(port: int, path: str = '/') -> None:
+    """
+    Expose port as an external URL.
+
+    The URL is only accessible to you and available till the notebook runs.
+
+    Args:
+        port: Port a service is running on
+        path: Path the service is running on
+
+    Returns:
+        None
+    """
+    output = import_module('google.colab.output')
+    output.serve_kernel_port_as_window(port, path=path)
