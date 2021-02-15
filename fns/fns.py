@@ -246,3 +246,16 @@ def ngrams(tokens: List,
         List of ngrams
     """
     return [tokens[i:i + n] for i in range(len(tokens) - n + 1)]
+
+
+def print_json(d: Dict) -> None:
+    """
+    Render python dictionary as JSON with double quotes and indentation.
+
+    Args:
+        d: Python dictionary
+
+    Returns:
+        None
+    """
+    print(json.dumps(d, indent=4))
