@@ -5,6 +5,29 @@ from typing import Dict, Callable, List
 import numpy as np
 import timeit
 
+import pandas as pd
+from sklearn import metrics as M
+
+
+def clustering_report(y_true, y_pred) -> pd.DataFrame:
+    """
+    Generate cluster evaluation metrics.
+
+    Args:
+        y_true: Array of actual labels
+        y_pred: Array of predicted clusters
+
+    Returns:
+        Pandas DataFrame with metrics.
+    """
+    return pd.DataFrame({
+        'Homogeneity': M.homogeneity_score(y_true, y_pred),
+        'Completeness': M.completeness_score(y_true, y_pred),
+        'V-Measure': M.v_measure_score(y_true, y_pred),
+        'Adjusted Rand Index': M.adjusted_rand_score(y_true, y_pred),
+        'Adjusted Mutual Information': M.adjusted_mutual_info_score(y_true, y_pred)
+    }, index=['value']).T
+
 
 def benchmark_function(fn: Callable,
                        repeat: int = 5) -> Dict:
