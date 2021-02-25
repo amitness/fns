@@ -1,4 +1,5 @@
 import argparse
+import base64
 import json
 import os
 import pickle
@@ -259,3 +260,17 @@ def print_json(d: Dict) -> None:
         None
     """
     print(json.dumps(d, indent=4))
+
+
+def read_as_base64(path: Union[str, Path]) -> str:
+    """
+    Convert file contents into a base64 string
+
+    Args:
+        path: File path
+
+    Returns:
+        Base64 string
+    """
+    content = Path(path).read_text()
+    return base64.b64encode(content.encode('utf-8')).decode('utf-8')
