@@ -274,3 +274,16 @@ def read_as_base64(path: Union[str, Path]) -> str:
     """
     content = Path(path).read_text()
     return base64.b64encode(content.encode('utf-8')).decode('utf-8')
+
+
+def base64_dict(base64_str: str) -> Dict:
+    """
+    Parse a base64-encoded JSON as dictionary.
+
+    Args:
+        base64_str: Base-64 encoded string representation of JSON
+
+    Returns:
+        Python Dictionary
+    """
+    return json.loads(base64.b64decode(base64_str))
