@@ -8,6 +8,7 @@ from collections import Counter
 from itertools import chain
 from pathlib import Path
 from typing import List, Dict, Union, Iterator, Any, IO
+import time
 
 from fns.text import md5_hash
 
@@ -287,3 +288,16 @@ def base64_dict(base64_str: str) -> Dict:
         Python Dictionary
     """
     return json.loads(base64.b64decode(base64_str))
+
+
+def format_as_hms(seconds: Union[int, float]) -> str:
+    """
+    Convert seconds to HH:MM:SS format.
+
+    Args:
+        seconds: Number of seconds
+
+    Returns:
+        String in the format HH:MM:SS
+    """
+    return time.strftime('%H:%M:%S', time.gmtime(seconds))

@@ -1,6 +1,6 @@
 from argparse import ArgumentParser, Namespace
 
-from fns import parse_manual, flatten
+from fns import parse_manual, flatten, format_as_hms
 from fns.text import window
 
 
@@ -18,3 +18,7 @@ def test_parse_manual():
 
 def test_flatten():
     assert list(flatten([[1], [2]])) == [1, 2]
+
+
+def test_format_as_hms():
+    assert format_as_hms(60 * 60 + 61) == '01:01:01'
