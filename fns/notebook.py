@@ -18,7 +18,7 @@ def print_header(text: str,
 
 
 def filter_column(df: pd.DataFrame,
-                  column_name: str):
+                  column_name: str) -> None:
     """
     Show an interactive widget to filter a column in dataframe.
 
@@ -31,5 +31,5 @@ def filter_column(df: pd.DataFrame,
     """
 
     from ipywidgets import interact
-    return interact(lambda value: df[df[column_name] == value],
-                    value=df[column_name].unique())
+    interact(lambda value: df[df[column_name] == value],
+             value=df[column_name].unique())
