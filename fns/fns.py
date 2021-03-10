@@ -1,12 +1,12 @@
 import argparse
 import base64
+import itertools
 import json
 import math
 import os
 import pickle
 import time
 from collections import Counter
-from itertools import chain
 from pathlib import Path
 from typing import List, Dict, Union, Iterator, Any, IO
 
@@ -23,7 +23,7 @@ def flatten(x: List[List]) -> Iterator:
     Returns:
         Iterator of flattened array.
     """
-    return chain.from_iterable(x)
+    return itertools.chain.from_iterable(x)
 
 
 def array_except_element(arr: List, elem: Any) -> List:
@@ -316,3 +316,25 @@ def roundup(n: float,
         Rounded integer number
     """
     return int(math.ceil(n / m)) * m
+
+
+def minibatch(items, size):
+    """
+    Create mini-batches of length 'size' from a list of items.
+
+    Original Source: `spacy` package
+
+    Original function definition:
+    https://github.com/explosion/spaCy/blob/master/spacy/util.py#L1426
+    """
+    if isinstance(size, int):
+        size_ = itertools.repeat(size)
+    else:
+        size_ = size
+    items = iter(items)
+    while True:
+        batch_size = next(size_)
+        batch = list(itertools.islice(items, int(batch_size)))
+        if len(batch) == 0:
+            break
+        yield list(batch)

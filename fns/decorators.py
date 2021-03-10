@@ -2,6 +2,8 @@ import time
 from typing import Callable
 import functools
 
+from fns import minibatch
+
 
 def timeit(func: Callable) -> Callable:
     """
@@ -68,3 +70,29 @@ def deduplicate(func: Callable) -> Callable:
         return list(set(func(*args, **kwargs)))
 
     return inner
+
+
+def batched(batch_size: int = 32) -> Callable:
+    """
+    Apply a function over small batches of a list and combine results.
+
+    Args:
+        batch_size: Size of each mini-batch
+
+    Returns:
+        Decorator for the batch size
+    """
+
+    def decorator(func) -> Callable:
+        @functools.wraps(func)
+        def inner(*args, **kwargs):
+            items = args[0]
+            results = []
+            for batch in minibatch(items, batch_size):
+                batch_results = func(batch)
+                results.extend(batch_results)
+            return results
+
+        return inner
+
+    return decorator
