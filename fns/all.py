@@ -14,21 +14,24 @@ from fns.fns import *
 from fns.plot import *
 from sklearn.dummy import DummyRegressor, DummyClassifier
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTreeClassifier, ExtraTreeRegressor
-from sklearn.linear_model import LogisticRegression, LinearRegression, SGDRegressor, SGDClassifier, RidgeClassifier, Lasso, ElasticNet
+from sklearn.linear_model import LogisticRegression, LinearRegression, SGDRegressor, SGDClassifier, RidgeClassifier, \
+    Lasso, ElasticNet
 from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC, LinearSVC, LinearSVR, SVR, OneClassSVM
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, ExtraTreesClassifier, ExtraTreesRegressor
 from sklearn.cluster import KMeans, AffinityPropagation, AgglomerativeClustering
+from sklearn.neural_network import MLPClassifier
 from sklearn.decomposition import PCA, TruncatedSVD, NMF
 from sklearn.manifold import TSNE
 from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV, cross_val_score
-from sklearn.model_selection import StratifiedKFold, KFold
+from sklearn.model_selection import StratifiedKFold, KFold, ParameterGrid, cross_val_predict
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer, HashingVectorizer
-from sklearn.preprocessing import normalize, scale, minmax_scale, OneHotEncoder
+from sklearn.preprocessing import normalize, scale, minmax_scale, OneHotEncoder, FunctionTransformer, StandardScaler
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 from sklearn.metrics.pairwise import cosine_distances, cosine_similarity, euclidean_distances
+from sklearn.pipeline import Pipeline, FeatureUnion
 import matplotlib.pyplot as plt
 from itertools import chain, product, permutations, combinations, islice
 from functools import lru_cache
@@ -41,5 +44,11 @@ try:
     import torch.optim as optim
     import torch.nn as nn
     from torch.utils.data import Dataset, TensorDataset, DataLoader
+    from torch.utils.tensorboard import SummaryWriter
+except ImportError:
+    pass
+
+try:
+    import seaborn as sns
 except ImportError:
     pass
