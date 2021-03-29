@@ -33,3 +33,22 @@ def filter_column(df: pd.DataFrame,
     from ipywidgets import interact
     interact(lambda value: df[df[column_name] == value],
              value=df[column_name].unique())
+
+
+def download_df(df: pd.DataFrame) -> None:
+    """
+    Generate a download link for a dataframe.
+
+    The filename is set to a random UUID.
+
+    Args:
+        df: Pandas DataFrame
+
+    Returns:
+        None
+    """
+    from IPython.display import FileLink, display
+    from uuid import uuid4
+    random_csv_path = f'{uuid4()}.csv'
+    df.to_csv(random_csv_path, index=False)
+    display(FileLink(random_csv_path))
