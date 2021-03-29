@@ -128,3 +128,27 @@ def jaccard(x, y) -> float:
     if len(s1) == 0 and len(s2) == 0:
         return 0
     return len(s1 & s2) / len(s1 | s2)
+
+
+def sorted_classification_report(y_true, y_pred) -> pd.DataFrame:
+    """
+    Generate class-wise classification report sorted from worst to best.
+
+    Args:
+        y_true: Actual labels
+        y_pred: Predicted labels
+
+    Returns:
+        Classification report in sorted form.
+    """
+    base_report = M.classification_report(y_true,
+                                          y_pred,
+                                          output_dict=True)
+    base_report_df = pd.DataFrame.from_dict(base_report).T
+    class_wise_df = (base_report_df
+                     .iloc[:-3]
+                     .sort_values(by='f1-score'))
+    summary_df = base_report_df.iloc[-3:]
+    combined_df = pd.concat([class_wise_df, summary_df])
+    combined_df['support'] = combined_df['support'].astype(int)
+    return combined_df

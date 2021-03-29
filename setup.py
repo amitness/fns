@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='fns',
-    version='0.4.64',
+    version='0.4.65',
     license='MIT',
     description='Reusable functions for use in ML projects',
     long_description=open('README.md').read(),

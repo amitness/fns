@@ -13,14 +13,18 @@ from fns.vision import *
 from fns.fns import *
 from fns.plot import *
 from sklearn.dummy import DummyRegressor, DummyClassifier
-from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from sklearn.linear_model import LogisticRegression, LinearRegression
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTreeClassifier, ExtraTreeRegressor
+from sklearn.linear_model import LogisticRegression, LinearRegression, SGDRegressor, SGDClassifier, RidgeClassifier, Lasso, ElasticNet
 from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC, LinearSVC, LinearSVR, SVR, OneClassSVM
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, ExtraTreesClassifier, ExtraTreesRegressor
 from sklearn.cluster import KMeans, AffinityPropagation, AgglomerativeClustering
 from sklearn.decomposition import PCA, TruncatedSVD, NMF
 from sklearn.manifold import TSNE
 from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV, cross_val_score
+from sklearn.model_selection import StratifiedKFold, KFold
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer, HashingVectorizer
 from sklearn.preprocessing import normalize, scale, minmax_scale, OneHotEncoder
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
