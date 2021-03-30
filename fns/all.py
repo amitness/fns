@@ -31,7 +31,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer, Ha
 from sklearn.preprocessing import normalize, scale, minmax_scale, OneHotEncoder, FunctionTransformer, StandardScaler
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 from sklearn.metrics.pairwise import cosine_distances, cosine_similarity, euclidean_distances
-from sklearn.pipeline import Pipeline, FeatureUnion
+from sklearn.pipeline import Pipeline, FeatureUnion, make_pipeline
 import matplotlib.pyplot as plt
 from itertools import chain, product, permutations, combinations, islice
 from functools import lru_cache
