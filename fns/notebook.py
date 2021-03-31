@@ -1,4 +1,5 @@
-from typing import List
+from typing import List, Union
+
 import pandas as pd
 
 
@@ -15,6 +16,38 @@ def print_bullets(lines: List[str]):
 def print_header(text: str,
                  level: int = 2):
     print_markdown(f'{"#" * level} {text}')
+
+
+def highlight_phrases(original_text: str,
+                      phrases: Union[List[str], str],
+                      color_palette: str = 'Greens',
+                      weight: float = 0.2) -> None:
+    """
+    Highlight a list of phrases in a text.
+
+    Args:
+        original_text: Sentence
+        phrases: A single phrase or a list of phrases
+        color_palette: Any valid matplotlib color palette name
+        weight: Darkness of the color
+
+    Returns:
+        None
+    """
+    import matplotlib.cm
+    from IPython.display import HTML, display
+
+    html = original_text
+    cmap = matplotlib.cm.get_cmap(color_palette)
+    color = f'rgba{cmap(weight, bytes=True)}'
+    if type(phrases) is str:
+        phrases = [phrases]
+    for phrase in phrases:
+        highlighted_phrase = (f'<span style="background-color: {color}; font-weight: {weight * 800};">'
+                              f'{phrase}'
+                              f'</span>')
+        html = html.replace(phrase, highlighted_phrase)
+    display(HTML(f'<p style="color: #444; font-size:1.5em;">{html}</p>'))
 
 
 def filter_column(df: pd.DataFrame,
