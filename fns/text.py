@@ -1,5 +1,6 @@
 import hashlib
-from typing import List
+import re
+from typing import List, Tuple
 
 
 def md5_hash(text: str) -> str:
@@ -118,3 +119,21 @@ def is_non_ascii(text: str) -> bool:
         return False
     except UnicodeEncodeError:
         return True
+
+
+def span_positions(text: str,
+                   phrases: List[str]) -> List[Tuple[int, int]]:
+    """
+    Find span position of phrases in a text.
+
+    Args:
+        text: Sentence
+        phrases: List of phrases
+
+    Returns:
+        List of span positions for each phrase.
+        The span position is a tuple of start and end index.
+    """
+    capture_group = '|'.join(phrases)
+    reg = re.compile(rf'\b({capture_group})\b', flags=re.IGNORECASE)
+    return [match.span() for match in reg.finditer(text)]
