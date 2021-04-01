@@ -96,3 +96,24 @@ def batched(batch_size: int = 32) -> Callable:
         return inner
 
     return decorator
+
+
+def to(data_type) -> Callable:
+    """
+    Apply a data type to returned data from a function.
+
+    Args:
+        data_type: The data type to apply. Eg: list, int etc.
+
+    Returns:
+        Decorator that applies the data type on returned data
+    """
+
+    def decorator(func) -> Callable:
+        @functools.wraps(func)
+        def inner(*args, **kwargs):
+            return data_type(func(*args, **kwargs))
+
+        return inner
+
+    return decorator
