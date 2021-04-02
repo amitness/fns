@@ -134,6 +134,6 @@ def span_positions(text: str,
         List of span positions for each phrase.
         The span position is a tuple of start and end index.
     """
-    capture_group = '|'.join(phrases)
+    capture_group = '|'.join([re.escape(phrase) for phrase in phrases])
     reg = re.compile(rf'\b({capture_group})\b', flags=re.IGNORECASE)
     return [match.span() for match in reg.finditer(text)]
