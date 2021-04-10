@@ -14,8 +14,16 @@ from fns.fns import *
 from fns.plot import *
 from sklearn.dummy import DummyRegressor, DummyClassifier
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTreeClassifier, ExtraTreeRegressor
-from sklearn.linear_model import LogisticRegression, LinearRegression, SGDRegressor, SGDClassifier, RidgeClassifier, \
-    Lasso, ElasticNet
+from sklearn.linear_model import (LogisticRegression,
+                                  LogisticRegressionCV,
+                                  LinearRegression,
+                                  SGDRegressor,
+                                  SGDClassifier,
+                                  RidgeClassifier,
+                                  RidgeClassifierCV,
+                                  Lasso,
+                                  LassoCV,
+                                  ElasticNet)
 from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.neighbors import KNeighborsClassifier
@@ -34,6 +42,8 @@ from sklearn.preprocessing import RobustScaler, Normalizer, MinMaxScaler, MaxAbs
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 from sklearn.metrics.pairwise import cosine_distances, cosine_similarity, euclidean_distances
 from sklearn.pipeline import Pipeline, FeatureUnion, make_pipeline
+from sklearn.calibration import calibration_curve, CalibratedClassifierCV
+from sklearn.inspection import permutation_importance
 import matplotlib.pyplot as plt
 from itertools import chain, product, permutations, combinations, islice
 from functools import lru_cache
