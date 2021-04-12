@@ -130,7 +130,7 @@ def jaccard(x, y) -> float:
     return len(s1 & s2) / len(s1 | s2)
 
 
-def sorted_classification_report(y_true, y_pred) -> pd.DataFrame:
+def sorted_classification_report(y_true, y_pred, **kwargs) -> pd.DataFrame:
     """
     Generate class-wise classification report sorted from worst to best.
 
@@ -143,7 +143,8 @@ def sorted_classification_report(y_true, y_pred) -> pd.DataFrame:
     """
     base_report = M.classification_report(y_true,
                                           y_pred,
-                                          output_dict=True)
+                                          output_dict=True,
+                                          **kwargs)
     base_report_df = pd.DataFrame.from_dict(base_report).T
     class_wise_df = (base_report_df
                      .iloc[:-3]
