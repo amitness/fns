@@ -100,6 +100,7 @@ from torch.utils.tensorboard import SummaryWriter
 import nltk
 import spacy
 from textblob import TextBlob
+import ipywidgets as widgets
 """.strip().splitlines()
 
 for import_line in imports:

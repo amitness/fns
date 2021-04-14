@@ -85,3 +85,30 @@ def download_df(df: pd.DataFrame) -> None:
     random_csv_path = f'{uuid4()}.csv'
     df.to_csv(random_csv_path, index=False)
     display(FileLink(random_csv_path))
+
+
+def search_dataframe(df: pd.DataFrame) -> None:
+    """
+    Show an interactive widget to search text fields of a dataframe.
+
+    Args:
+        df: Pandas DataFrame
+
+    Returns:
+        Interactive widget for searching.
+    """
+
+    from ipywidgets import interact
+    from IPython.display import display
+
+    def _search(query: str, column: str):
+        if query:
+            with pd.option_context('display.max_rows', None,
+                                   'display.max_columns', None):
+                filtered_df = df[df[column].str.contains(query,
+                                                         case=False,
+                                                         regex=False)]
+                display(filtered_df)
+
+    string_columns = df.select_dtypes('object').columns.tolist()
+    interact(_search, query='', column=string_columns)
