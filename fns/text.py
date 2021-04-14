@@ -137,3 +137,20 @@ def span_positions(text: str,
     capture_group = '|'.join([re.escape(phrase) for phrase in phrases])
     reg = re.compile(rf'\b({capture_group})\b', flags=re.IGNORECASE)
     return [match.span() for match in reg.finditer(text)]
+
+
+def abbreviations(texts: List[str]) -> List[str]:
+    """
+    Get a list of all-capitalized words.
+
+    Example: WWW, HTTP, etc.
+
+    Args:
+        texts: List of sentences
+
+    Returns:
+        List of abbreviations
+    """
+    combined_text = '\n'.join(texts)
+    symbols = re.findall(r'\b[A-Z][A-Z]+\b', combined_text)
+    return list(set(symbols))
