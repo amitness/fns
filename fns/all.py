@@ -54,14 +54,20 @@ from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
 from sklearn.preprocessing import (normalize,
                                    scale,
                                    minmax_scale,
+                                   RobustScaler,
+                                   MinMaxScaler,
+                                   MaxAbsScaler,
                                    OneHotEncoder,
                                    FunctionTransformer,
+                                   PowerTransformer,
                                    StandardScaler,
                                    MultiLabelBinarizer,
-                                   LabelBinarizer)
+                                   LabelBinarizer,
+                                   Normalizer,
+                                   PolynomialFeatures,
+                                   )
 from sklearn.multiclass import (OneVsOneClassifier,
                                 OneVsRestClassifier)
-from sklearn.preprocessing import RobustScaler, Normalizer, MinMaxScaler, MaxAbsScaler
 from sklearn.metrics import (accuracy_score,
                              precision_score,
                              recall_score,
@@ -71,7 +77,8 @@ from sklearn.metrics import (accuracy_score,
                              f1_score,
                              fbeta_score,
                              mean_squared_error,
-                             mean_absolute_error)
+                             mean_absolute_error,
+                             hamming_loss)
 from sklearn.metrics.pairwise import cosine_distances, cosine_similarity, euclidean_distances
 from sklearn.pipeline import Pipeline, FeatureUnion, make_pipeline
 from sklearn.calibration import calibration_curve, CalibratedClassifierCV
@@ -83,16 +90,20 @@ from collections import Counter, OrderedDict, defaultdict
 from pathlib import Path
 import math
 
-try:
-    import torch
-    import torch.optim as optim
-    import torch.nn as nn
-    from torch.utils.data import Dataset, TensorDataset, DataLoader
-    from torch.utils.tensorboard import SummaryWriter
-except ImportError:
-    pass
+imports = """
+import seaborn as sns
+import torch
+import torch.optim as optim
+import torch.nn as nn
+from torch.utils.data import Dataset, TensorDataset, DataLoader
+from torch.utils.tensorboard import SummaryWriter
+import nltk
+import spacy
+from textblob import TextBlob
+""".strip().splitlines()
 
-try:
-    import seaborn as sns
-except ImportError:
-    pass
+for import_line in imports:
+    try:
+        exec(import_line)
+    except Exception:
+        pass
