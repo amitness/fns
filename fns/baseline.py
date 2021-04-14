@@ -1,6 +1,6 @@
 import tempfile
 from shutil import rmtree
-from typing import List, Optional
+from typing import List, Union
 
 from joblib import Memory
 from sklearn.decomposition import TruncatedSVD, NMF, PCA
@@ -15,7 +15,7 @@ from fns.model_selection import view_result_table
 
 
 def text_classification_baseline(x_train: List[str],
-                                 y_train: List[Optional[str, int]],
+                                 y_train: List[Union[str, int]],
                                  search_type='grid',
                                  n_iter: int = 10):
     """
