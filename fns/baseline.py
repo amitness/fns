@@ -1,9 +1,9 @@
 import tempfile
 from shutil import rmtree
-from typing import List
+from typing import List, Optional
 
 from joblib import Memory
-from sklearn.decomposition import TruncatedSVD
+from sklearn.decomposition import TruncatedSVD, NMF, PCA
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer, HashingVectorizer
 from sklearn.linear_model import LogisticRegression, RidgeClassifier
 from sklearn.model_selection import ParameterGrid, GridSearchCV, RandomizedSearchCV
@@ -15,9 +15,21 @@ from fns.model_selection import view_result_table
 
 
 def text_classification_baseline(x_train: List[str],
-                                 y_train,
+                                 y_train: List[Optional[str, int]],
                                  search_type='grid',
                                  n_iter: int = 10):
+    """
+    Train classic baseline pipelines for text classification.
+
+    Args:
+        x_train: List of texts
+        y_train: List of labels
+        search_type: 'grid' or 'random'
+        n_iter: Number of iterations for random search.
+
+    Returns:
+        Pandas DataFrame sorted by best scoring configurations.
+    """
     temporary_location = tempfile.mkdtemp()
     memory = Memory(location=temporary_location, verbose=0)
 
@@ -46,7 +58,7 @@ def text_classification_baseline(x_train: List[str],
                   BernoulliNB(),
                   SVC(),
                   LinearSVC(max_iter=5000)],
-        'dimensionality_reduction': [TruncatedSVD(2), 'passthrough']
+        'dimensionality_reduction': [TruncatedSVD(2), PCA(0.9), NMF(2), 'passthrough']
     }
 
     common_params = dict(cv=10,
