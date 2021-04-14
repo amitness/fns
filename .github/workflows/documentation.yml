@@ -2,12 +2,12 @@ name: Documentation
 on:
   push:
     branches:
-    - master
-    - main
+      - master
+      - main
   pull_request:
     branches:
-    - master
-    - main
+      - master
+      - main
 
 jobs:
   documentation:
@@ -34,7 +34,7 @@ jobs:
             mkdocs-material==6.2.4 \
             mkdocs-redirects==1.0.1 \
             mkdocstrings==0.14.0
-          pip install numpy pandas scikit-learn ipython
+          pip install numpy pandas scikit-learn ipython ipywidgets
 
       - name: Deploy documentation
         run: mkdocs gh-deploy --force

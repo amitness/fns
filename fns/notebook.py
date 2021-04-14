@@ -8,13 +8,32 @@ def print_markdown(markdown):
     display(Markdown(markdown))
 
 
-def print_bullets(lines: List[str]):
+def print_bullets(lines: List[str]) -> None:
+    """
+    Display a list of text as bullet points.
+
+    Args:
+        lines: List of texts
+
+    Returns:
+        None
+    """
     bullet_points = '\n'.join(f'- `{line}`' for line in sorted(lines))
     print_markdown(bullet_points)
 
 
 def print_header(text: str,
-                 level: int = 2):
+                 level: int = 2) -> None:
+    """
+    Display a text as markdown header.
+
+    Args:
+        text: Text
+        level: 2 for H2, 3 for H3 upto 6.
+
+    Returns:
+        None
+    """
     print_markdown(f'{"#" * level} {text}')
 
 

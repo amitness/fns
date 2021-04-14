@@ -17,6 +17,7 @@ from fns.all import *
 ```
 
 ::: fns.fns
+::: fns.baseline
 ::: fns.cluster
 ::: fns.colab
 ::: fns.dataframe
@@ -24,6 +25,8 @@ from fns.all import *
 ::: fns.lexicon
 ::: fns.metrics
 ::: fns.model_selection
+::: fns.notebook
+::: fns.plot
 ::: fns.preprocessing
 ::: fns.streamlit_utils
 ::: fns.text
