@@ -83,8 +83,9 @@ def filter_column(df: pd.DataFrame,
     """
 
     from ipywidgets import interact
+    options = sorted(df[column_name].unique())
     interact(lambda value: df[df[column_name] == value],
-             value=df[column_name].unique())
+             value=options)
 
 
 def download_df(df: pd.DataFrame) -> None:
