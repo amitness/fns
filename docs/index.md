@@ -25,6 +25,7 @@ from fns.all import *
 ::: fns.lexicon
 ::: fns.metrics
 ::: fns.model_selection
+::: fns.multi_label
 ::: fns.notebook
 ::: fns.plot
 ::: fns.preprocessing
