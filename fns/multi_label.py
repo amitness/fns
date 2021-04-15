@@ -23,7 +23,7 @@ def validate_multiple_labels(y_raw: List[List]) -> None:
     assert (y.sum(axis=0) == 0).sum() == 0
 
     # Assert that no label is assigned to only one data point
-    assert (y.sum(axis=0) == 1).any() is False
+    assert not (y.sum(axis=0) == 1).any()
 
 
 def count_single_label(y_raw: List[List]) -> pd.DataFrame:
