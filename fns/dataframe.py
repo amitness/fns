@@ -59,6 +59,23 @@ def display_all() -> None:
     pd.set_option('display.max_rows', None)
 
 
+def no_wrapping():
+    """
+    Return a context manager to display all rows and columns.
+
+    Examples:
+    ```python
+    with no_wrapping():
+        print(df)
+    ```
+
+    Returns:
+        Context Manager
+    """
+    return pd.option_context('display.max_rows', None,
+                             'display.max_columns', None)
+
+
 def explore_df(df: pd.DataFrame) -> pd.DataFrame:
     """
     Perform a quick peek of a dataframe.

@@ -101,6 +101,7 @@ import nltk
 import spacy
 from textblob import TextBlob
 import ipywidgets as widgets
+from pprint import pprint
 """.strip().splitlines()
 
 for import_line in imports:
