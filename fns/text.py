@@ -1,6 +1,6 @@
 import hashlib
 import re
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
 
 def md5_hash(text: str) -> str:
@@ -154,3 +154,30 @@ def abbreviations(texts: List[str]) -> List[str]:
     combined_text = '\n'.join(texts)
     symbols = re.findall(r'\b[A-Z][A-Z]+\b', combined_text)
     return list(set(symbols))
+
+
+def export_fasttext_format(texts: List[str],
+                           labels: Union[List[str], List[List[str]]],
+                           filename) -> None:
+    """
+    Export training data to a fasttext compatible format.
+
+    Format:
+    __label__POSITIVE it was good
+
+    Args:
+        texts: List of sentences
+        labels: List of single or multi-label classes
+        filename: Exported filename
+
+    Returns:
+        None
+    """
+    output = []
+    for text, text_label in zip(texts, labels):
+        if type(text_label) is str:
+            text_label = [text_label]
+        labels = " ".join([f'__label__{label}' for label in text_label])
+        output.append(f'{labels} {text}\n')
+    with open(filename, 'w') as fp:
+        fp.writelines(output)

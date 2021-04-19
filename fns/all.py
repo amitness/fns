@@ -31,7 +31,9 @@ from sklearn.linear_model import (LogisticRegression,
                                   )
 from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neighbors import (KNeighborsClassifier,
+                               RadiusNeighborsClassifier,
+                               RadiusNeighborsRegressor)
 from sklearn.svm import SVC, LinearSVC, LinearSVR, SVR, OneClassSVM
 from sklearn.ensemble import (RandomForestClassifier,
                               RandomForestRegressor,
@@ -102,6 +104,7 @@ import spacy
 from textblob import TextBlob
 import ipywidgets as widgets
 from pprint import pprint
+from typing import List, Dict, Tuple, Union, Optional
 """.strip().splitlines()
 
 for import_line in imports:
