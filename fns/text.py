@@ -139,7 +139,7 @@ def span_positions(text: str,
     return [match.span() for match in reg.finditer(text)]
 
 
-def abbreviations(texts: List[str]) -> List[str]:
+def extract_abbreviations(texts: List[str]) -> List[str]:
     """
     Get a list of all-capitalized words.
 

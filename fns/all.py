@@ -14,7 +14,8 @@ from fns.fns import *
 from fns.plot import *
 from fns.multi_label import *
 from sklearn.datasets import (make_classification,
-                              make_regression)
+                              make_regression,
+                              make_multilabel_classification)
 from sklearn.dummy import DummyRegressor, DummyClassifier
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTreeClassifier, ExtraTreeRegressor
 from sklearn.linear_model import (LogisticRegression,
@@ -92,6 +93,7 @@ from functools import lru_cache
 from collections import Counter, OrderedDict, defaultdict
 from pathlib import Path
 import math
+import random
 
 imports = """
 import seaborn as sns

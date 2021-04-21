@@ -1,5 +1,5 @@
-from fns.text import abbreviations
+from fns.text import extract_abbreviations
 
 
 def test_abbreviations():
-    assert abbreviations(['HTTP was used']) == ['HTTP']
+    assert extract_abbreviations(['HTTP was used']) == ['HTTP']
