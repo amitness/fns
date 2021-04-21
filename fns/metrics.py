@@ -29,6 +29,27 @@ def clustering_report(y_true, y_pred) -> pd.DataFrame:
     }, index=['value']).T
 
 
+def multilabel_classification_report(y_true, y_pred) -> pd.Series:
+    """
+    Compute all metrics for a multi-label classification problem.
+    Args:
+        y_true: True binarized labels
+        y_pred: Predicted binarized labels
+
+    Returns:
+        Pandas series of metrics
+    """
+    scores = {
+        'accuracy': M.accuracy_score(y_true, y_pred),
+        'precision_macro': M.precision_score(y_true, y_pred, average='macro'),
+        'recall_macro': M.recall_score(y_true, y_pred, average='macro'),
+        'f1_macro': M.f1_score(y_true, y_pred, average='macro'),
+        'f1_weighted': M.f1_score(y_true, y_pred, average='weighted'),
+        'hamming_loss': M.hamming_loss(y_true, y_pred)
+    }
+    return pd.Series(scores)
+
+
 def benchmark_function(fn: Callable,
                        repeat: int = 5) -> Dict:
     """

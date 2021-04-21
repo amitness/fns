@@ -12,6 +12,7 @@ from fns.text import *
 from fns.vision import *
 from fns.fns import *
 from fns.plot import *
+from fns.multi_label import *
 from sklearn.datasets import (make_classification,
                               make_regression)
 from sklearn.dummy import DummyRegressor, DummyClassifier
@@ -105,6 +106,7 @@ from textblob import TextBlob
 import ipywidgets as widgets
 from pprint import pprint
 from typing import List, Dict, Tuple, Union, Optional
+from loguru import logger
 """.strip().splitlines()
 
 for import_line in imports:

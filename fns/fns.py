@@ -338,3 +338,17 @@ def minibatch(items, size):
         if len(batch) == 0:
             break
         yield list(batch)
+
+
+def harmonic_mean(a: Union[int, float], b: Union[int, float]) -> Union[int, float]:
+    """
+    Compute harmonic mean of two numbers.
+
+    Args:
+        a: First number
+        b: Second number
+
+    Returns:
+        Harmonic mean
+    """
+    return (2 * a * b) / (a + b)
