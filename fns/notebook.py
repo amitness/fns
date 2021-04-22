@@ -88,23 +88,31 @@ def filter_column(df: pd.DataFrame,
              value=options)
 
 
-def download_df(df: pd.DataFrame) -> None:
+def download_df(df: pd.DataFrame,
+                csv_path=None) -> None:
     """
-    Generate a download link for a dataframe.
+    Download a dataframe as a CSV with a random filename.
 
     The filename is set to a random UUID.
 
     Args:
         df: Pandas DataFrame
+        csv_path: CSV filename.
 
     Returns:
         None
     """
-    from IPython.display import FileLink, display
-    from uuid import uuid4
-    random_csv_path = f'{uuid4()}.csv'
-    df.to_csv(random_csv_path, index=False)
-    display(FileLink(random_csv_path))
+    from IPython.display import Javascript
+    if not csv_path:
+        from uuid import uuid4
+        csv_path = f'{uuid4()}.csv'
+    df.to_csv(csv_path, index=False)
+    script = f'''
+            var location = window.location.host;
+            var download_link = window.location.protocol + "//" + location + "/files/{csv_path}"
+            window.open(download_link)
+            '''
+    return Javascript(script)
 
 
 def search_dataframe(df: pd.DataFrame) -> None:
