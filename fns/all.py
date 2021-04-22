@@ -103,6 +103,7 @@ from torch.utils.data import Dataset, TensorDataset, DataLoader
 from torch.utils.tensorboard import SummaryWriter
 import nltk
 import spacy
+import requests
 from textblob import TextBlob
 import ipywidgets as widgets
 from pprint import pprint
