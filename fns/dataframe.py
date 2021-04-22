@@ -42,7 +42,9 @@ def print_groups(df: pd.DataFrame, column: str) -> None:
     for current_group, sub_df in df.groupby(column):
         print(f'Group: {current_group}')
         print()
-        print(sub_df)
+        # Skip group column
+        mask = ~(sub_df.columns.isin([current_group]))
+        print(sub_df.loc[:, mask])
         print()
         print('---' * 25)
 
