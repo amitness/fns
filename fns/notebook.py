@@ -88,6 +88,25 @@ def filter_column(df: pd.DataFrame,
              value=options)
 
 
+def download(file_path) -> None:
+    """
+    Download a file at given path.
+
+    Args:
+        file_path: File path
+
+    Returns:
+        None
+    """
+    from IPython.display import Javascript
+    script = f'''
+            var host = window.location.host;
+            var downloadLink = window.location.protocol + "//" + host + "/files/{file_path}"
+            window.open(downloadLink)
+            '''
+    return Javascript(script)
+
+
 def download_df(df: pd.DataFrame,
                 csv_path=None) -> None:
     """
@@ -102,17 +121,11 @@ def download_df(df: pd.DataFrame,
     Returns:
         None
     """
-    from IPython.display import Javascript
     if not csv_path:
         from uuid import uuid4
         csv_path = f'{uuid4()}.csv'
     df.to_csv(csv_path, index=False)
-    script = f'''
-            var location = window.location.host;
-            var download_link = window.location.protocol + "//" + location + "/files/{csv_path}"
-            window.open(download_link)
-            '''
-    return Javascript(script)
+    return download(file_path=csv_path)
 
 
 def search_dataframe(df: pd.DataFrame) -> None:
