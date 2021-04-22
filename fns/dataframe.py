@@ -43,7 +43,7 @@ def print_groups(df: pd.DataFrame, column: str) -> None:
         print(f'Group: {current_group}')
         print()
         # Skip group column
-        mask = ~(sub_df.columns.isin([current_group]))
+        mask = ~(sub_df.columns.isin([column]))
         print(sub_df.loc[:, mask])
         print()
         print('---' * 25)
