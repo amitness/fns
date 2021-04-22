@@ -109,6 +109,7 @@ import ipywidgets as widgets
 from pprint import pprint
 from typing import List, Dict, Tuple, Union, Optional
 from loguru import logger
+from fns.notebook import *
 """.strip().splitlines()
 
 for import_line in imports:
