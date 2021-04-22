@@ -86,7 +86,6 @@ from sklearn.metrics import (accuracy_score,
 from sklearn.metrics.pairwise import cosine_distances, cosine_similarity, euclidean_distances
 from sklearn.pipeline import Pipeline, FeatureUnion, make_pipeline
 from sklearn.calibration import calibration_curve, CalibratedClassifierCV
-from sklearn.inspection import permutation_importance
 import matplotlib.pyplot as plt
 from itertools import chain, product, permutations, combinations, islice
 from functools import lru_cache
@@ -110,6 +109,7 @@ from pprint import pprint
 from typing import List, Dict, Tuple, Union, Optional
 from loguru import logger
 from fns.notebook import *
+from sklearn.inspection import permutation_importance
 """.strip().splitlines()
 
 for import_line in imports:
