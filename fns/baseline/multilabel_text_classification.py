@@ -30,7 +30,8 @@ grid = {
                LogisticRegression: {'class_weight': ['balanced'],
                                     'max_iter': [5000],
                                     'C': np.logspace(-4, 0, 50),
-                                    'fit_intercept': [True, False]},
+                                    'fit_intercept': [True, False],
+                                    'solver': ['lbfgs']},
                SGDClassifier: {
                    'loss': ['hinge', 'log'],
                    'penalty': ['l1', 'l2', 'elasticnet'],

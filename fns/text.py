@@ -2,6 +2,10 @@ import hashlib
 import re
 from typing import List, Tuple, Union
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+import numpy as np
+import pandas as pd
+
 
 def md5_hash(text: str) -> str:
     """
@@ -181,3 +185,60 @@ def export_fasttext_format(texts: List[str],
         output.append(f'{labels} {text}\n')
     with open(filename, 'w') as fp:
         fp.writelines(output)
+
+
+def extract_tfidf_keywords(texts: List[str],
+                           ngram: int = 2,
+                           n: int = 10) -> List[str]:
+    """
+    Get top keywords based on mean tf-idf term score.
+
+    Args:
+        texts: List of sentences
+        ngram: 1 for words, 2 for bigram and so on.
+        n: Number of keywords to extract
+
+    Returns:
+        Keywords
+    """
+    tfidf = TfidfVectorizer(ngram_range=(1, ngram),
+                            stop_words='english',
+                            strip_accents='unicode',
+                            sublinear_tf=True)
+    vectors = tfidf.fit_transform(texts)
+    term_tfidf = vectors.A.mean(axis=0)
+    terms = np.array(tfidf.get_feature_names())
+    return terms[term_tfidf.argsort()[::-1]][:n].tolist()
+
+
+def extract_discriminative_keywords(df: pd.DataFrame,
+                                    category_column: str,
+                                    text_column: str,
+                                    ngram: int = 2,
+                                    n: int = 10) -> pd.DataFrame:
+    """
+    Generate discriminative keywords for texts in each category.
+
+    Args:
+        df: Dataframe with text and category columns.
+        text_column: Column name containing texts
+        category_column: Column name for the text category
+        ngram: 1 for words, 2 for bigram and so on.
+        n: Number of keywords to return.
+
+    Returns:
+        Dataframe with categories in columns and top-n keywords in each columns.
+    """
+    # Combine all texts into a single document for each category
+    category_docs = df.groupby(by=category_column)[text_column].apply(' '.join)
+    categories = category_docs.index.tolist()
+
+    tfidf = TfidfVectorizer(ngram_range=(1, ngram),
+                            stop_words='english',
+                            strip_accents='unicode',
+                            sublinear_tf=True)
+    document_vectors = tfidf.fit_transform(category_docs).A
+    keywords = np.array(tfidf.get_feature_names())
+    top_terms = document_vectors.argsort(axis=1)[:, :n]
+    return pd.DataFrame(keywords[top_terms].T,
+                        columns=categories)
