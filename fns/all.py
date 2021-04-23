@@ -111,6 +111,7 @@ from typing import List, Dict, Tuple, Union, Optional
 from loguru import logger
 from fns.notebook import *
 from sklearn.inspection import permutation_importance
+from tqdm.auto import tqdm
 """.strip().splitlines()
 
 for import_line in imports:

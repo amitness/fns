@@ -29,7 +29,7 @@ grid = {
     'models': {KNeighborsClassifier: {'n_neighbors': [5]},
                LogisticRegression: {'class_weight': ['balanced'],
                                     'max_iter': [5000],
-                                    'C': np.linspace(0.001, 1, 50),
+                                    'C': np.logspace(-4, 0, 50),
                                     'fit_intercept': [True, False]},
                SGDClassifier: {
                    'loss': ['hinge', 'log'],
