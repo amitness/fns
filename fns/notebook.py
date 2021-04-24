@@ -1,5 +1,6 @@
+from pathlib import Path
 from typing import List, Union
-
+import time
 import pandas as pd
 
 
@@ -121,11 +122,14 @@ def download_df(df: pd.DataFrame,
     Returns:
         None
     """
+    from IPython.display import display
     if not csv_path:
         from uuid import uuid4
         csv_path = f'{uuid4()}.csv'
     df.to_csv(csv_path, index=False)
-    return download(file_path=csv_path)
+    display(download(file_path=csv_path))
+    time.sleep(1)
+    Path(csv_path).unlink()
 
 
 def search_dataframe(df: pd.DataFrame) -> None:
