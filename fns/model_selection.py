@@ -34,3 +34,6 @@ def view_result_table(cv) -> pd.DataFrame:
     return (pd.DataFrame(cv.cv_results_)[columns]
             .sort_values(by=['rank_test_score'])
             )
+
+
+grid_report = view_result_table
