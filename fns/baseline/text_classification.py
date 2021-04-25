@@ -25,7 +25,7 @@ def generate_grid(grid,
                   multi_label: bool = False):
     for grid_class, param_grid in grid.items():
         for p in ParameterGrid(param_grid):
-            if multi_label and (grid_class in [LogisticRegression, SGDClassifier, MultinomialNB]):
+            if multi_label and (grid_class in [LogisticRegression, SGDClassifier, MultinomialNB, BernoulliNB]):
                 yield OneVsRestClassifier(grid_class(**p))
             else:
                 yield grid_class(**p)
