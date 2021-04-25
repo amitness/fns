@@ -82,6 +82,7 @@ from sklearn.metrics import (accuracy_score,
                              fbeta_score,
                              mean_squared_error,
                              mean_absolute_error,
+                             matthews_corrcoef,
                              hamming_loss)
 from sklearn.metrics.pairwise import cosine_distances, cosine_similarity, euclidean_distances
 from sklearn.pipeline import Pipeline, FeatureUnion, make_pipeline
