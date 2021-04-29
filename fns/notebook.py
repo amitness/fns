@@ -157,3 +157,29 @@ def search_dataframe(df: pd.DataFrame) -> None:
 
     string_columns = df.select_dtypes('object').columns.tolist()
     interact(_search, query='', column=string_columns)
+
+
+def show_examples(df: pd.DataFrame,
+                  group_column: str,
+                  data_column: str,
+                  n: int = 5):
+    """
+    Show random examples for each sub-group in a dataframe.
+
+    Args:
+        df: Dataframe
+        group_column: Column name for performing group by
+        data_column: Column to show examples for
+        n: Number of examples
+
+    Returns:
+        Markdown
+    """
+    from IPython.display import Markdown
+    generated_text = ""
+    for group_name, subset in df.explode(group_column).groupby(group_column):
+        examples = subset[data_column].sample(n)
+        generated_text += f"## {group_name}\n\n"
+        generated_text += "\n".join([f'- {example}' for example in examples])
+        generated_text += '\n\n'
+    return Markdown(generated_text)

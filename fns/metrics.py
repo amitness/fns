@@ -43,6 +43,7 @@ def multilabel_classification_report(y_true, y_pred) -> pd.Series:
         'accuracy': M.accuracy_score(y_true, y_pred),
         'precision_macro': M.precision_score(y_true, y_pred, average='macro'),
         'recall_macro': M.recall_score(y_true, y_pred, average='macro'),
+        'f1_samples': M.f1_score(y_true, y_pred, average='samples'),
         'f1_macro': M.f1_score(y_true, y_pred, average='macro'),
         'f1_weighted': M.f1_score(y_true, y_pred, average='weighted'),
         'hamming_loss': M.hamming_loss(y_true, y_pred)
