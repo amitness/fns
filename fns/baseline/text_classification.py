@@ -1,3 +1,4 @@
+import time
 from functools import partial
 from typing import List
 
@@ -12,6 +13,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.tree import DecisionTreeClassifier
 
+from fns import format_as_hms
 from fns.decorators import to
 from fns.model_selection import view_result_table
 import numpy as np
@@ -131,7 +133,8 @@ class BaselineTextClassifier:
             scoring=None,
             memory=('/dev/shm/baseline' if os.name == 'posix' else None),
             search='grid',
-            n_iter: int = 10):
+            n_iter: int = 10,
+            verbose: int = 1):
         if scoring is None:
             scoring = 'f1_samples' if self.multi_label else 'f1_macro'
         classifier_pipeline = Pipeline([('vectorizer', TfidfVectorizer()),
@@ -139,7 +142,7 @@ class BaselineTextClassifier:
                                        memory=memory)
 
         common_params = dict(cv=cv,
-                             verbose=1,
+                             verbose=verbose,
                              refit=True,
                              scoring=scoring,
                              n_jobs=-1)
@@ -159,3 +162,22 @@ class BaselineTextClassifier:
         print(f'Best Estimator: {hpo.best_estimator_}')
         scores_df = view_result_table(hpo)
         return scores_df
+
+    def timeit(self, x_train, y_train, n_iter: int = 10) -> None:
+        """
+        Estimate time for a full-grid search.
+
+        Args:
+            x_train: Training texts
+            y_train: Training labels
+            n_iter: Number of iterations used to estimate time
+
+        Returns:
+
+        """
+        total_tasks = sum(len(ParameterGrid(p)) for p in self.params) * 3
+        start_time = time.perf_counter()
+        self.fit(x_train, y_train, search='random', n_iter=n_iter)
+        time_taken = (time.perf_counter() - start_time) / n_iter
+        total_time = time_taken * total_tasks
+        print(f'Estimated time for full grid: {format_as_hms(total_time)}')
