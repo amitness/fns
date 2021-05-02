@@ -1,4 +1,7 @@
 from functools import lru_cache
+from pathlib import Path
+from typing import List
+
 import pandas as pd
 import numpy as np
 
@@ -29,3 +32,15 @@ def onegram_count() -> pd.DataFrame:
     df['idf'] = np.log(df['count'].sum() / df['count'])
     df.sort_values(by='idf', ascending=True, inplace=True)
     return df
+
+
+def dict_words() -> List[str]:
+    """
+    Fetch default list of words present in Linux distros.
+
+    Returns:
+        List of words
+    """
+    return (Path('/usr/share/dict/words')
+            .read_text()
+            .splitlines())

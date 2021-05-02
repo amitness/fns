@@ -352,3 +352,32 @@ def harmonic_mean(a: Union[int, float], b: Union[int, float]) -> Union[int, floa
         Harmonic mean
     """
     return (2 * a * b) / (a + b)
+
+
+def generate_edits(word: str, n: int = 1) -> List[str]:
+    """
+    Generate variations that are `n` edits away from word.
+
+    Adapted from: https://norvig.com/spell-correct.html
+
+    Args:
+        word: Single word
+        n: Number of edits away from word.
+
+    Returns:
+        List of edits
+    """
+
+    def edits1(word: str):
+        letters = 'abcdefghijklmnopqrstuvwxyz'
+        splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
+        deletes = [L + R[1:] for L, R in splits if R]
+        transposes = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R) > 1]
+        replaces = [L + c + R[1:] for L, R in splits if R for c in letters]
+        inserts = [L + c + R for L, R in splits for c in letters]
+        return set(deletes + transposes + replaces + inserts)
+
+    edits = edits1(word)
+    for i in range(n - 1):
+        edits = [e2 for e1 in edits for e2 in edits1(e1)]
+    return edits
