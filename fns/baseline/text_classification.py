@@ -134,26 +134,26 @@ class BaselineTextClassifier:
             memory=('/dev/shm/baseline' if os.name == 'posix' else None),
             search='grid',
             n_iter: int = 10,
-            verbose: int = 1):
+            verbose: int = 1,
+            n_jobs=-1):
         if scoring is None:
             scoring = 'f1_samples' if self.multi_label else 'f1_macro'
         classifier_pipeline = Pipeline([('vectorizer', TfidfVectorizer()),
                                         ('model', OneVsRestClassifier(LogisticRegression()))],
                                        memory=memory)
 
-        common_params = dict(cv=cv,
+        common_params = dict(estimator=classifier_pipeline,
+                             cv=cv,
                              verbose=verbose,
                              refit=True,
                              scoring=scoring,
-                             n_jobs=-1)
+                             n_jobs=n_jobs)
 
         if search == 'grid':
-            hpo = GridSearchCV(classifier_pipeline,
-                               param_grid=self.params,
+            hpo = GridSearchCV(param_grid=self.params,
                                **common_params)
         else:
-            hpo = RandomizedSearchCV(classifier_pipeline,
-                                     param_distributions=self.params,
+            hpo = RandomizedSearchCV(param_distributions=self.params,
                                      n_iter=n_iter,
                                      **common_params)
 
