@@ -19,7 +19,7 @@ from fns.model_selection import view_result_table
 import numpy as np
 import os
 
-__all__ = ['BaselineTextClassifier']
+__all__ = ['BaselineTextClassifier', 'generate_grid']
 
 
 @to(list)

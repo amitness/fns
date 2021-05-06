@@ -1,1 +1,1 @@
-from .text_classification import BaselineTextClassifier
+from .text_classification import *
