@@ -1,6 +1,6 @@
 import math
 from collections import Counter
-from typing import Dict, Callable, List
+from typing import Dict, Callable, List, Tuple
 
 import numpy as np
 import timeit
@@ -150,6 +150,30 @@ def jaccard(x, y) -> float:
     if len(s1) == 0 and len(s2) == 0:
         return 0
     return len(s1 & s2) / len(s1 | s2)
+
+
+def outlier_cutoff(values: List) -> Tuple[float, float]:
+    """
+    Generate the lower and upper bound for outliers.
+
+    Extra:
+    ```
+    Lower bound: < Q1 - 1.5 * IQR
+    Upper bound: > Q3 + 1.5 * IQR
+    ```
+
+    Args:
+        values: List of numerical values
+
+    Returns:
+        Tuple of (lower-cutoff, upper-cutoff)
+    """
+    q1 = np.quantile(values, 0.25)
+    q3 = np.quantile(values, 0.75)
+    iqr = q3 - q1
+    lower_threshold = q1 - 1.5 * iqr
+    upper_threshold = q3 + 1.5 * iqr
+    return lower_threshold, upper_threshold
 
 
 def sorted_classification_report(y_true, y_pred, **kwargs) -> pd.DataFrame:
