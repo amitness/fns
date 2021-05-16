@@ -42,7 +42,7 @@ grid = {
                SGDClassifier: {
                    'loss': ['hinge', 'log'],
                    'penalty': ['l1', 'l2', 'elasticnet'],
-                   'alpha': np.logspace(-4, 1, 5),
+                   'alpha': np.logspace(-5, 1, 5),
                    'class_weight': ['balanced'],
                    'max_iter': [5000]
                },
@@ -98,22 +98,32 @@ baseline_grid = {
 }
 
 
+def set_regularization_params(n_reg: int):
+    raw_grid = grid.copy()
+    raw_grid['models'][LogisticRegression]['C'] = np.logspace(-4, 0, n_reg)
+    raw_grid['models'][SGDClassifier]['alpha'] = np.logspace(-5, 1, n_reg)
+    return raw_grid
+
+
 class BaselineTextClassifier:
     def __init__(self,
                  models: List = None,
                  vectorizers: List = None,
                  default_vectorizer: bool = True,
                  default_model: bool = True,
-                 multi_label=False):
+                 multi_label: bool = False,
+                 n_reg: int = 50):
         self.multi_label = multi_label
         self.models = [] if not models else models
         self.vectorizers = [] if not vectorizers else vectorizers
         generate = partial(generate_grid, multi_label=multi_label)
 
+        param_grid = set_regularization_params(n_reg=n_reg)
+
         if default_vectorizer:
-            self.vectorizers += generate(grid['vectorizer'])
+            self.vectorizers += generate(param_grid['vectorizer'])
         if default_model:
-            self.models += generate(grid['models'])
+            self.models += generate(param_grid['models'])
 
         self.params = []
         for model_name, model_grid in baseline_grid.items():
