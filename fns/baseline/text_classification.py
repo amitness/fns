@@ -36,7 +36,7 @@ def generate_grid(grid,
 grid = {
     'models': {LogisticRegression: {'class_weight': ['balanced'],
                                     'max_iter': [5000],
-                                    'C': np.logspace(-4, 2, 50),
+                                    'C': np.logspace(-4, 4, 50),
                                     'fit_intercept': [True, False],
                                     'solver': ['lbfgs']},
                SGDClassifier: {
@@ -103,7 +103,7 @@ baseline_grid = {
 
 def set_regularization_params(n_reg: int):
     raw_grid = grid.copy()
-    raw_grid['models'][LogisticRegression]['C'] = np.logspace(-4, 2, n_reg)
+    raw_grid['models'][LogisticRegression]['C'] = np.logspace(-4, 4, n_reg)
     raw_grid['models'][SGDClassifier]['alpha'] = np.logspace(-5, 1, n_reg)
     return raw_grid
 
