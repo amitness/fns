@@ -34,7 +34,7 @@ jobs:
             mkdocs-material==6.2.4 \
             mkdocs-redirects==1.0.1 \
             mkdocstrings==0.14.0
-          pip install numpy pandas scikit-learn ipython ipywidgets
+          pip install numpy pandas scikit-learn ipython ipywidgets optuna==2.6.0
 
       - name: Deploy documentation
         run: mkdocs gh-deploy --force

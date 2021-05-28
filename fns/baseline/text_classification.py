@@ -1,23 +1,19 @@
-import time
 from functools import partial
-from typing import List
+from typing import List, Optional
 
+import optuna
 from sklearn.dummy import DummyClassifier
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression, SGDClassifier
-from sklearn.model_selection import ParameterGrid, GridSearchCV, RandomizedSearchCV
+from sklearn.model_selection import ParameterGrid, cross_val_score
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.naive_bayes import MultinomialNB, BernoulliNB
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.tree import DecisionTreeClassifier
 
-from fns import format_as_hms
 from fns.decorators import to
-from fns.model_selection import view_result_table
-import numpy as np
-import os
 
 __all__ = ['BaselineTextClassifier', 'generate_grid']
 
@@ -33,164 +29,122 @@ def generate_grid(grid,
                 yield grid_class(**p)
 
 
-grid = {
-    'models': {LogisticRegression: {'class_weight': ['balanced'],
-                                    'max_iter': [5000],
-                                    'C': np.logspace(-4, 4, 50),
-                                    'fit_intercept': [True, False],
-                                    'solver': ['lbfgs']},
-               SGDClassifier: {
-                   'loss': ['hinge', 'log'],
-                   'penalty': ['l1', 'l2', 'elasticnet'],
-                   'alpha': np.logspace(-5, 1, 5),
-                   'class_weight': ['balanced'],
-                   'max_iter': [5000]
-               },
-               DecisionTreeClassifier: {
-                   'class_weight': ['balanced']
-               },
-               RandomForestClassifier: {
-                   'class_weight': ['balanced']
-               }
-               },
-    'vectorizer': {TfidfVectorizer: {
-        'ngram_range': [(1, 1), (1, 2), (1, 3), (2, 2), (2, 3)],
-        'stop_words': [None, 'english'],
-        'analyzer': ['word'],
-        'binary': [True, False],
-        'lowercase': [True, False],
-        'max_df': [1.0, 0.75, 0.5, 0.25],
-        'strip_accents': ['unicode', None],
-    }}
-}
+def evaluate_trial(trial,
+                   x,
+                   y,
+                   cv,
+                   scoring,
+                   vectorizers,
+                   multi_label=False):
+    model_class = trial.suggest_categorical('model_class', ['LogisticRegression',
+                                                            'SGDClassifier',
+                                                            'DecisionTreeClassifier',
+                                                            'RandomForestClassifier',
+                                                            'DummyClassifier',
+                                                            'MLPClassifier'])
+    if vectorizers is None:
+        vectorizers = [TfidfVectorizer()]
+    else:
+        vectorizers += [TfidfVectorizer()]
+    vectorizer_choices = {v.__class__.__name__: v for v in vectorizers}
+    vectorizer_name = trial.suggest_categorical('vectorizer_name',
+                                                list(vectorizer_choices))
 
-baseline_grid = {
-    'naive_bayes': {
-        'models': {MultinomialNB: {}
-                   },
-        'vectorizer': {CountVectorizer: {
-            'stop_words': [None, 'english'],
-            'strip_accents': ['unicode', None],
-        }}
-    },
-    'bernoulli_nb': {
-        'models': {BernoulliNB: {}
-                   },
-        'vectorizer': {CountVectorizer: {
-            'stop_words': [None, 'english'],
-            'binary': [True],
-            'strip_accents': ['unicode', None],
-        }}
-    },
-    'dummy': {
-        'models': {DummyClassifier: {
-            'strategy': ['stratified', 'most_frequent', 'prior', 'uniform']
-        }},
-        'vectorizer': {CountVectorizer: {}
-                       }
-    },
-    'knn': {
-        'models': {KNeighborsClassifier: {
-            'n_neighbors': [1, 3],
-            'weights': ['uniform', 'distance'],
-            'metric': ['euclidean', 'manhattan', 'minkowski']
+    if vectorizer_name == 'TfidfVectorizer':
+        ngram_range = trial.suggest_int('ngram_range', 1, 3)
+        vectorizer_params = {
+            'ngram_range': (1, ngram_range),
+            'stop_words': trial.suggest_categorical('stop_words', [None, 'english']),
+            'analyzer': 'word',
+            'binary': trial.suggest_categorical('binary', [True, False]),
+            'lowercase': trial.suggest_categorical('lowercase', [True, False]),
+            'sublinear_tf': trial.suggest_categorical('sublinear_tf', [True, False]),
+            'max_df': trial.suggest_discrete_uniform('max_df', 0.2, 1.0, 0.1),
+            'strip_accents': trial.suggest_categorical('strip_accents', ['unicode', None]),
         }
-        },
-        'vectorizer': {TfidfVectorizer: {}}
-    },
-}
+        vectorizer = TfidfVectorizer(**vectorizer_params)
+    else:
+        vectorizer = vectorizer_choices[vectorizer_name]
 
+    if model_class == 'LogisticRegression':
+        base_class = LogisticRegression
+        params = {
+            'C': trial.suggest_loguniform('C', 1e-5, 1e5),
+            'class_weight': 'balanced',
+            'max_iter': 5000,
+            'fit_intercept': trial.suggest_categorical('fit_intercept', [True, False])
+        }
+    elif model_class == 'SGDClassifier':
+        base_class = SGDClassifier
+        params = {
+            'loss': trial.suggest_categorical('loss', ['hinge', 'log']),
+            'penalty': trial.suggest_categorical('penalty', ['l1', 'l2', 'elasticnet']),
+            'alpha': trial.suggest_loguniform('alpha', 1e-5, 10),
+            'class_weight': 'balanced',
+            'max_iter': 5000
+        }
+    elif model_class == 'DecisionTreeClassifier':
+        base_class = DecisionTreeClassifier
+        params = {'class_weight': 'balanced'}
+    elif model_class == 'RandomForestClassifier':
+        base_class = RandomForestClassifier
+        params = {'class_weight': 'balanced'}
+    elif model_class == 'MLPClassifier':
+        base_class = MLPClassifier
+        params = {
+            'activation': trial.suggest_categorical('activation', ['relu', 'tanh', 'identity', 'logistic']),
+            'solver': 'adam',
+            'alpha': trial.suggest_loguniform('alpha', 1e-4, 10),
+            'early_stopping': trial.suggest_categorical('early_stopping', [True, False]),
+        }
+    else:
+        base_class = DummyClassifier
+        params = {'strategy': trial.suggest_categorical('strategy',
+                                                        ['stratified', 'most_frequent', 'prior', 'uniform'])
+                  }
 
-def set_regularization_params(n_reg: int):
-    raw_grid = grid.copy()
-    raw_grid['models'][LogisticRegression]['C'] = np.logspace(-4, 4, n_reg)
-    raw_grid['models'][SGDClassifier]['alpha'] = np.logspace(-5, 1, n_reg)
-    return raw_grid
+    model = base_class(**params)
+    if multi_label and (base_class in [LogisticRegression, SGDClassifier]):
+        model = OneVsRestClassifier(model)
+
+    pipeline = Pipeline([('vectorizer', vectorizer),
+                         ('model', model)])
+
+    return cross_val_score(pipeline,
+                           x,
+                           y,
+                           cv=cv,
+                           scoring=scoring).mean()
 
 
 class BaselineTextClassifier:
     def __init__(self,
-                 models: List = None,
-                 vectorizers: List = None,
-                 default_vectorizer: bool = True,
-                 default_model: bool = True,
-                 multi_label: bool = False,
-                 n_reg: int = 50):
-        self.multi_label = multi_label
-        self.models = [] if not models else models
-        self.vectorizers = [] if not vectorizers else vectorizers
-        generate = partial(generate_grid, multi_label=multi_label)
-
-        param_grid = set_regularization_params(n_reg=n_reg)
-
-        if default_vectorizer:
-            self.vectorizers += generate(param_grid['vectorizer'])
-        if default_model:
-            self.models += generate(param_grid['models'])
-
-        self.params = []
-        for model_name, model_grid in baseline_grid.items():
-            self.params.append({'vectorizer': [*generate(model_grid['vectorizer'])],
-                                'model': [*generate(model_grid['models'])],
-                                })
-
-        if self.vectorizers and self.models:
-            self.params.append({'vectorizer': self.vectorizers,
-                                'model': self.models,
-                                })
+                 study_name: str = 'baseline',
+                 reset=False):
+        if reset:
+            import os
+            os.remove(f'{study_name}.db')
+        self.study = optuna.create_study(study_name=study_name,
+                                         storage=f'sqlite:///{study_name}.db',
+                                         direction='maximize',
+                                         load_if_exists=True)
 
     def fit(self,
-            x_train,
-            y_train,
-            cv=3,
-            scoring=None,
-            memory=('/dev/shm/baseline' if os.name == 'posix' else None),
-            search='grid',
-            n_iter: int = 10,
-            verbose: int = 1,
-            n_jobs=-1):
-        if scoring is None:
-            scoring = 'f1_samples' if self.multi_label else 'f1_macro'
-        classifier_pipeline = Pipeline([('vectorizer', TfidfVectorizer()),
-                                        ('model', OneVsRestClassifier(LogisticRegression()))],
-                                       memory=memory)
-
-        common_params = dict(estimator=classifier_pipeline,
-                             cv=cv,
-                             verbose=verbose,
-                             refit=True,
-                             scoring=scoring,
-                             n_jobs=n_jobs)
-
-        if search == 'grid':
-            hpo = GridSearchCV(param_grid=self.params,
-                               **common_params)
-        else:
-            hpo = RandomizedSearchCV(param_distributions=self.params,
-                                     n_iter=n_iter,
-                                     **common_params)
-
-        hpo.fit(x_train, y_train)
-        print(f'Best F1-score: {hpo.best_score_}')
-        print(f'Best Estimator: {hpo.best_estimator_}')
-        scores_df = view_result_table(hpo)
-        return scores_df
-
-    def timeit(self, x_train, y_train, n_iter: int = 10) -> None:
-        """
-        Estimate time for a full-grid search.
-
-        Args:
-            x_train: Training texts
-            y_train: Training labels
-            n_iter: Number of iterations used to estimate time
-
-        Returns:
-
-        """
-        total_tasks = sum(len(ParameterGrid(p)) for p in self.params) * 3
-        start_time = time.perf_counter()
-        self.fit(x_train, y_train, search='random', n_iter=n_iter)
-        time_taken = (time.perf_counter() - start_time) / n_iter
-        total_time = time_taken * total_tasks
-        print(f'Estimated time for full grid: {format_as_hms(total_time)}')
+            x: List[str],
+            y,
+            cv: int = 5,
+            scoring: str = 'f1_macro',
+            multi_label: bool = False,
+            vectorizers: Optional[List] = None,
+            n_trials: Optional[int] = None,
+            timeout: Optional[int] = None):
+        optimize_function = partial(evaluate_trial,
+                                    x=x,
+                                    y=y,
+                                    cv=cv,
+                                    scoring=scoring,
+                                    vectorizers=vectorizers,
+                                    multi_label=multi_label)
+        self.study.optimize(optimize_function,
+                            n_trials=n_trials,
+                            timeout=timeout)
