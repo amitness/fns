@@ -72,7 +72,7 @@ def vscode(subdomain: str = 'amitness',
     drive = import_module('google.colab.drive')
     drive.mount('/content/drive')
     subprocess.run(['curl', '-fsSL', 'https://code-server.dev/install.sh', '-O'])
-    subprocess.run(['bash', 'install.sh', '--version', '3.5.0'])
+    subprocess.run(['bash', 'install.sh', '--version', '3.9.3'])
     subprocess.run(['pip', 'install', 'pylint'])
     print(f'https://{subdomain}.loca.lt/?folder=/content/drive/MyDrive/colab')
     run_foreground(

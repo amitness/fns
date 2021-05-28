@@ -69,7 +69,7 @@ def evaluate_trial(trial,
     if model_class == 'LogisticRegression':
         base_class = LogisticRegression
         params = {
-            'C': trial.suggest_loguniform('C', 1e-5, 1e5),
+            'C': trial.suggest_loguniform('C', 1e-5, 10),
             'class_weight': 'balanced',
             'max_iter': 5000,
             'fit_intercept': trial.suggest_categorical('fit_intercept', [True, False])
