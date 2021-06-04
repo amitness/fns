@@ -73,7 +73,8 @@ def vscode(subdomain: str = 'amitness',
     drive.mount('/content/drive')
     subprocess.run(['curl', '-fsSL', 'https://code-server.dev/install.sh', '-O'])
     subprocess.run(['bash', 'install.sh', '--version', '3.10.2'])
-    subprocess.run(['pip', 'install', 'pylint'])
+    subprocess.run(['pip3', 'install', 'flake8', '--user'])
+    subprocess.run(['pip3', 'install', 'black', '--user'])
     print(f'https://{subdomain}.loca.lt/?folder=/content/drive/MyDrive/colab')
     run_foreground(
         f'code-server --port {port} --auth none --disable-telemetry --force --user-data-dir {config_save_path} & npx localtunnel -p {port} -s {subdomain} --allow-invalid-cert')
