@@ -13,6 +13,7 @@ def clustering_report(y_true, y_pred) -> pd.DataFrame:
     """
     Generate cluster evaluation metrics.
 
+
     Args:
         y_true: Array of actual labels
         y_pred: Array of predicted clusters
@@ -20,13 +21,16 @@ def clustering_report(y_true, y_pred) -> pd.DataFrame:
     Returns:
         Pandas DataFrame with metrics.
     """
-    return pd.DataFrame({
-        'Homogeneity': M.homogeneity_score(y_true, y_pred),
-        'Completeness': M.completeness_score(y_true, y_pred),
-        'V-Measure': M.v_measure_score(y_true, y_pred),
-        'Adjusted Rand Index': M.adjusted_rand_score(y_true, y_pred),
-        'Adjusted Mutual Information': M.adjusted_mutual_info_score(y_true, y_pred)
-    }, index=['value']).T
+    return pd.DataFrame(
+        {
+            "Homogeneity": M.homogeneity_score(y_true, y_pred),
+            "Completeness": M.completeness_score(y_true, y_pred),
+            "V-Measure": M.v_measure_score(y_true, y_pred),
+            "Adjusted Rand Index": M.adjusted_rand_score(y_true, y_pred),
+            "Adjusted Mutual Information": M.adjusted_mutual_info_score(y_true, y_pred),
+        },
+        index=["value"],
+    ).T
 
 
 def multilabel_classification_report(y_true, y_pred) -> pd.Series:
@@ -40,19 +44,18 @@ def multilabel_classification_report(y_true, y_pred) -> pd.Series:
         Pandas series of metrics
     """
     scores = {
-        'accuracy': M.accuracy_score(y_true, y_pred),
-        'precision_macro': M.precision_score(y_true, y_pred, average='macro'),
-        'recall_macro': M.recall_score(y_true, y_pred, average='macro'),
-        'f1_samples': M.f1_score(y_true, y_pred, average='samples'),
-        'f1_macro': M.f1_score(y_true, y_pred, average='macro'),
-        'f1_weighted': M.f1_score(y_true, y_pred, average='weighted'),
-        'hamming_loss': M.hamming_loss(y_true, y_pred)
+        "accuracy": M.accuracy_score(y_true, y_pred),
+        "precision_macro": M.precision_score(y_true, y_pred, average="macro"),
+        "recall_macro": M.recall_score(y_true, y_pred, average="macro"),
+        "f1_samples": M.f1_score(y_true, y_pred, average="samples"),
+        "f1_macro": M.f1_score(y_true, y_pred, average="macro"),
+        "f1_weighted": M.f1_score(y_true, y_pred, average="weighted"),
+        "hamming_loss": M.hamming_loss(y_true, y_pred),
     }
     return pd.Series(scores)
 
 
-def benchmark_function(fn: Callable,
-                       repeat: int = 5) -> Dict:
+def benchmark_function(fn: Callable, repeat: int = 5) -> Dict:
     """
     Benchmark time taken for a function and return metrics.
 
@@ -63,12 +66,12 @@ def benchmark_function(fn: Callable,
     Returns:
         Dictionary of total times, mean and std of times
     """
-    iteration_times = timeit.repeat(fn,
-                                    repeat=repeat,
-                                    number=1)
-    return {'time': iteration_times,
-            'mean': np.mean(iteration_times),
-            'std': np.std(iteration_times)}
+    iteration_times = timeit.repeat(fn, repeat=repeat, number=1)
+    return {
+        "time": iteration_times,
+        "mean": np.mean(iteration_times),
+        "std": np.std(iteration_times),
+    }
 
 
 def baseline_accuracy(labels: List) -> float:
@@ -91,7 +94,7 @@ def baseline_accuracy(labels: List) -> float:
     return count / len(labels) * 100.0
 
 
-def missing_value_percent(df):
+def missing_value_percent(df: pd.DataFrame) -> pd.DataFrame:
     """
     Get the percentage of missing values in each column.
 
@@ -105,7 +108,7 @@ def missing_value_percent(df):
     return (df.isna().sum() / num_rows * 100.0).sort_values(ascending=False)
 
 
-def na_percent(df):
+def na_percent(df: pd.DataFrame) -> pd.DataFrame:
     return missing_value_percent(df)
 
 
@@ -187,15 +190,10 @@ def sorted_classification_report(y_true, y_pred, **kwargs) -> pd.DataFrame:
     Returns:
         Classification report in sorted form.
     """
-    base_report = M.classification_report(y_true,
-                                          y_pred,
-                                          output_dict=True,
-                                          **kwargs)
+    base_report = M.classification_report(y_true, y_pred, output_dict=True, **kwargs)
     base_report_df = pd.DataFrame.from_dict(base_report).T
-    class_wise_df = (base_report_df
-                     .iloc[:-3]
-                     .sort_values(by='f1-score'))
+    class_wise_df = base_report_df.iloc[:-3].sort_values(by="f1-score")
     summary_df = base_report_df.iloc[-3:]
     combined_df = pd.concat([class_wise_df, summary_df])
-    combined_df['support'] = combined_df['support'].astype(int)
+    combined_df["support"] = combined_df["support"].astype(int)
     return combined_df
