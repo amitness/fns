@@ -70,6 +70,17 @@ def onegram_count() -> pd.DataFrame:
 
 
 @lru_cache(1)
+def bigram_count():
+    # Fetch ngram counts from remote path
+    url = "https://norvig.com/ngrams/count_2w.txt"
+    bigram_df = pd.read_csv(url, sep="\t", names=["bigram", "count"])
+
+    # Split bigram into separate columns
+    bigram_df[["word1", "word2"]] = bigram_df.bigram.str.split(expand=True)
+    return bigram_df
+
+
+@lru_cache(1)
 def nrc_vad() -> pd.DataFrame:
     url = "https://github.com/nchibana/moviearcs/raw/master/NRC-VAD-Lexicon.txt"
     return pd.read_csv(url, sep="\t")
