@@ -242,3 +242,11 @@ def extract_discriminative_keywords(df: pd.DataFrame,
     top_terms = document_vectors.argsort(axis=1)[:, :n]
     return pd.DataFrame(keywords[top_terms].T,
                         columns=categories)
+
+
+def extract_stopwords(texts: List[str]) -> pd.DataFrame:
+    vec = TfidfVectorizer()
+    vec.fit(texts)
+    word_idf_pairs = zip(vec.get_feature_names(), vec.idf_)
+    return (pd.DataFrame(word_idf_pairs, columns=["word", "idf"])
+            .sort_values(by="idf"))
