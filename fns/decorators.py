@@ -1,6 +1,6 @@
+import functools
 import time
 from typing import Callable
-import functools
 
 from fns import minibatch
 
@@ -21,7 +21,7 @@ def timeit(func: Callable) -> Callable:
     def inner(*args, **kwargs):
         func(*args, **kwargs)
         total_time_taken = time.time() - start_time
-        print('Total time taken: {} seconds'.format(total_time_taken))
+        print("Total time taken: {} seconds".format(total_time_taken))
 
     return inner
 
@@ -39,9 +39,9 @@ def show_shapes(func: Callable) -> Callable:
 
     @functools.wraps(func)
     def inner(df):
-        print(f'Shape before {func.__name__}', df.shape)
+        print(f"Shape before {func.__name__}", df.shape)
         out_df = func(df)
-        print(f'Shape after {func.__name__}', out_df.shape)
+        print(f"Shape after {func.__name__}", out_df.shape)
         return out_df
 
     return inner
@@ -117,3 +117,28 @@ def to(data_type) -> Callable:
         return inner
 
     return decorator
+
+
+def named_timer(func: Callable) -> Callable:
+    """
+    Decorator to store time taken for wrapped functions.
+
+    Args:
+        func: Python Function
+
+    Returns:
+        Decorated function
+    """
+
+    @functools.wraps(func)
+    def inner(*args, **kwargs):
+        start_time = time.perf_counter()
+        value = func(*args, **kwargs)
+        name = func.__name__
+        named_timer.times[name] = time.perf_counter() - start_time
+        return value
+
+    return inner
+
+
+named_timer.times = {}
