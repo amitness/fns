@@ -2,7 +2,7 @@ import json
 from typing import Dict
 from urllib.request import urlopen
 
-IMAGENET_LABEL_TO_CLASS_URL = 'http://bit.ly/imagenet-labels'
+IMAGENET_LABEL_TO_CLASS_URL = "http://bit.ly/imagenet-labels"
 
 
 def imagenet_index_to_class() -> Dict[int, str]:

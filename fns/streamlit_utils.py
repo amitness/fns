@@ -2,11 +2,13 @@ import base64
 import csv
 
 
-def create_download_link(dataframe,
-                         filename: str,
-                         file_type: str = 'csv',
-                         index: bool = False,
-                         header: bool = True):
+def create_download_link(
+    dataframe,
+    filename: str,
+    file_type: str = "csv",
+    index: bool = False,
+    header: bool = True,
+):
     """
     Generate a download link for a pandas dataframe.
 
@@ -20,13 +22,12 @@ def create_download_link(dataframe,
     Returns:
         Markdown to place in st.markdown(...)
     """
-    if file_type == 'csv':
+    if file_type == "csv":
         dataframe_csv = dataframe.to_csv(index=index)
-    elif file_type == 'tsv':
-        dataframe_csv = dataframe.to_csv(index=index,
-                                         sep='\t',
-                                         header=header,
-                                         quoting=csv.QUOTE_NONNUMERIC)
+    elif file_type == "tsv":
+        dataframe_csv = dataframe.to_csv(
+            index=index, sep="\t", header=header, quoting=csv.QUOTE_NONNUMERIC
+        )
     else:
         raise Exception('Invalid file_type. Allowed values are "csv" and "tsv".')
 

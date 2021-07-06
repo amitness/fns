@@ -13,78 +13,111 @@ from fns.vision import *
 from fns.fns import *
 from fns.plot import *
 from fns.multi_label import *
-from sklearn.datasets import (make_classification,
-                              make_regression,
-                              make_multilabel_classification)
+from sklearn.datasets import (
+    make_classification,
+    make_regression,
+    make_multilabel_classification,
+)
 from sklearn.dummy import DummyRegressor, DummyClassifier
-from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor, ExtraTreeClassifier, ExtraTreeRegressor
-from sklearn.linear_model import (LogisticRegression,
-                                  LogisticRegressionCV,
-                                  LinearRegression,
-                                  SGDRegressor,
-                                  SGDClassifier,
-                                  RidgeClassifier,
-                                  RidgeClassifierCV,
-                                  Lasso,
-                                  LassoCV,
-                                  ElasticNet,
-                                  Ridge,
-                                  RidgeCV,
-                                  )
+from sklearn.tree import (
+    DecisionTreeClassifier,
+    DecisionTreeRegressor,
+    ExtraTreeClassifier,
+    ExtraTreeRegressor,
+)
+from sklearn.linear_model import (
+    LogisticRegression,
+    LogisticRegressionCV,
+    LinearRegression,
+    SGDRegressor,
+    SGDClassifier,
+    RidgeClassifier,
+    RidgeClassifierCV,
+    Lasso,
+    LassoCV,
+    ElasticNet,
+    Ridge,
+    RidgeCV,
+)
 from sklearn.naive_bayes import GaussianNB, BernoulliNB, MultinomialNB
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.neighbors import (KNeighborsClassifier,
-                               RadiusNeighborsClassifier,
-                               RadiusNeighborsRegressor)
+from sklearn.neighbors import (
+    KNeighborsClassifier,
+    RadiusNeighborsClassifier,
+    RadiusNeighborsRegressor,
+)
 from sklearn.svm import SVC, LinearSVC, LinearSVR, SVR, OneClassSVM
-from sklearn.ensemble import (RandomForestClassifier,
-                              RandomForestRegressor,
-                              ExtraTreesClassifier,
-                              ExtraTreesRegressor,
-                              BaggingClassifier,
-                              BaggingRegressor,
-                              AdaBoostClassifier,
-                              AdaBoostRegressor,
-                              GradientBoostingClassifier,
-                              GradientBoostingRegressor)
+from sklearn.ensemble import (
+    RandomForestClassifier,
+    RandomForestRegressor,
+    ExtraTreesClassifier,
+    ExtraTreesRegressor,
+    BaggingClassifier,
+    BaggingRegressor,
+    AdaBoostClassifier,
+    AdaBoostRegressor,
+    GradientBoostingClassifier,
+    GradientBoostingRegressor,
+)
 from sklearn.cluster import KMeans, AffinityPropagation, AgglomerativeClustering
 from sklearn.neural_network import MLPClassifier
 from sklearn.decomposition import PCA, TruncatedSVD, NMF, LatentDirichletAllocation
 from sklearn.manifold import TSNE
-from sklearn.model_selection import train_test_split, GridSearchCV, RandomizedSearchCV, cross_val_score
-from sklearn.model_selection import StratifiedKFold, KFold, ParameterGrid, cross_val_predict
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer, HashingVectorizer, TfidfTransformer
+from sklearn.model_selection import (
+    train_test_split,
+    GridSearchCV,
+    RandomizedSearchCV,
+    cross_val_score,
+)
+from sklearn.model_selection import (
+    StratifiedKFold,
+    KFold,
+    ParameterGrid,
+    cross_val_predict,
+)
+from sklearn.feature_extraction.text import (
+    TfidfVectorizer,
+    CountVectorizer,
+    HashingVectorizer,
+    TfidfTransformer,
+)
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS
-from sklearn.preprocessing import (normalize,
-                                   scale,
-                                   minmax_scale,
-                                   RobustScaler,
-                                   MinMaxScaler,
-                                   MaxAbsScaler,
-                                   OneHotEncoder,
-                                   FunctionTransformer,
-                                   PowerTransformer,
-                                   StandardScaler,
-                                   MultiLabelBinarizer,
-                                   LabelBinarizer,
-                                   Normalizer,
-                                   PolynomialFeatures,
-                                   )
-from sklearn.multiclass import (OneVsOneClassifier,
-                                OneVsRestClassifier)
-from sklearn.metrics import (accuracy_score,
-                             precision_score,
-                             recall_score,
-                             confusion_matrix,
-                             silhouette_score,
-                             classification_report,
-                             f1_score,
-                             fbeta_score,
-                             mean_squared_error,
-                             mean_absolute_error,
-                             matthews_corrcoef,
-                             hamming_loss)
-from sklearn.metrics.pairwise import cosine_distances, cosine_similarity, euclidean_distances
+from sklearn.preprocessing import (
+    normalize,
+    scale,
+    minmax_scale,
+    RobustScaler,
+    MinMaxScaler,
+    MaxAbsScaler,
+    OneHotEncoder,
+    FunctionTransformer,
+    PowerTransformer,
+    StandardScaler,
+    MultiLabelBinarizer,
+    LabelBinarizer,
+    Normalizer,
+    PolynomialFeatures,
+)
+from sklearn.multiclass import OneVsOneClassifier, OneVsRestClassifier
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    confusion_matrix,
+    silhouette_score,
+    classification_report,
+    f1_score,
+    fbeta_score,
+    mean_squared_error,
+    mean_absolute_error,
+    matthews_corrcoef,
+    hamming_loss,
+)
+from sklearn.metrics.pairwise import (
+    cosine_distances,
+    cosine_similarity,
+    euclidean_distances,
+)
 from sklearn.pipeline import Pipeline, FeatureUnion, make_pipeline
 from sklearn.calibration import calibration_curve, CalibratedClassifierCV
 import matplotlib.pyplot as plt

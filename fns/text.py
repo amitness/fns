@@ -17,7 +17,7 @@ def md5_hash(text: str) -> str:
     Returns:
         MD5 hash
     """
-    return hashlib.md5(text.encode('utf-8')).hexdigest()
+    return hashlib.md5(text.encode("utf-8")).hexdigest()
 
 
 def sha256hash(text: str) -> str:
@@ -30,11 +30,10 @@ def sha256hash(text: str) -> str:
     Returns:
         SHA256 hash
     """
-    return hashlib.sha256(text.encode('utf-8')).hexdigest()
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def window(tokens,
-           size: int = 3):
+def window(tokens, size: int = 3):
     """
     Generate samples for a window size.
 
@@ -51,12 +50,13 @@ def window(tokens,
     Returns:
         List of windowed samples
     """
-    return [(tokens[i: i + size], tokens[i + size])
-            for i in range(0, len(tokens) - size, 1)]
+    return [
+        (tokens[i : i + size], tokens[i + size])
+        for i in range(0, len(tokens) - size, 1)
+    ]
 
 
-def offset_by_one(x,
-                  sequence_length: int = 3):
+def offset_by_one(x, sequence_length: int = 3):
     """
     Generate a list of small sequences offset by 1.
 
@@ -75,8 +75,9 @@ def offset_by_one(x,
 
     """
     sl = sequence_length
-    return [(x[i:i + sl], x[i + 1:i + sl + 1])
-            for i in range(0, len(x) - sl - 1, sl)]
+    return [
+        (x[i : i + sl], x[i + 1 : i + sl + 1]) for i in range(0, len(x) - sl - 1, sl)
+    ]
 
 
 def num_words(text: str) -> int:
@@ -102,7 +103,7 @@ def unique_chars(texts: List[str]) -> List[str]:
     Returns:
         A sorted list of unique characters
     """
-    return sorted(set(''.join(texts)))
+    return sorted(set("".join(texts)))
 
 
 def is_non_ascii(text: str) -> bool:
@@ -119,14 +120,13 @@ def is_non_ascii(text: str) -> bool:
         True if the text contains non-ascii characters.
     """
     try:
-        text.encode('ascii')
+        text.encode("ascii")
         return False
     except UnicodeEncodeError:
         return True
 
 
-def span_positions(text: str,
-                   phrases: List[str]) -> List[Tuple[int, int]]:
+def span_positions(text: str, phrases: List[str]) -> List[Tuple[int, int]]:
     """
     Find span position of phrases in a text.
 
@@ -138,8 +138,8 @@ def span_positions(text: str,
         List of span positions for each phrase.
         The span position is a tuple of start and end index.
     """
-    capture_group = '|'.join([re.escape(phrase) for phrase in phrases])
-    reg = re.compile(rf'\b({capture_group})\b', flags=re.IGNORECASE)
+    capture_group = "|".join([re.escape(phrase) for phrase in phrases])
+    reg = re.compile(rf"\b({capture_group})\b", flags=re.IGNORECASE)
     return [match.span() for match in reg.finditer(text)]
 
 
@@ -155,14 +155,14 @@ def extract_abbreviations(texts: List[str]) -> List[str]:
     Returns:
         List of abbreviations
     """
-    combined_text = '\n'.join(texts)
-    symbols = re.findall(r'\b[A-Z][A-Z]+\b', combined_text)
+    combined_text = "\n".join(texts)
+    symbols = re.findall(r"\b[A-Z][A-Z]+\b", combined_text)
     return list(set(symbols))
 
 
-def export_fasttext_format(texts: List[str],
-                           labels: Union[List[str], List[List[str]]],
-                           filename) -> None:
+def export_fasttext_format(
+    texts: List[str], labels: Union[List[str], List[List[str]]], filename
+) -> None:
     """
     Export training data to a fasttext compatible format.
 
@@ -181,15 +181,13 @@ def export_fasttext_format(texts: List[str],
     for text, text_label in zip(texts, labels):
         if type(text_label) is str:
             text_label = [text_label]
-        labels = " ".join([f'__label__{label}' for label in text_label])
-        output.append(f'{labels} {text}\n')
-    with open(filename, 'w') as fp:
+        labels = " ".join([f"__label__{label}" for label in text_label])
+        output.append(f"{labels} {text}\n")
+    with open(filename, "w") as fp:
         fp.writelines(output)
 
 
-def extract_tfidf_keywords(texts: List[str],
-                           ngram: int = 2,
-                           n: int = 10) -> List[str]:
+def extract_tfidf_keywords(texts: List[str], ngram: int = 2, n: int = 10) -> List[str]:
     """
     Get top keywords based on mean tf-idf term score.
 
@@ -201,21 +199,25 @@ def extract_tfidf_keywords(texts: List[str],
     Returns:
         Keywords
     """
-    tfidf = TfidfVectorizer(ngram_range=(1, ngram),
-                            stop_words='english',
-                            strip_accents='unicode',
-                            sublinear_tf=True)
+    tfidf = TfidfVectorizer(
+        ngram_range=(1, ngram),
+        stop_words="english",
+        strip_accents="unicode",
+        sublinear_tf=True,
+    )
     vectors = tfidf.fit_transform(texts)
     term_tfidf = vectors.A.mean(axis=0)
     terms = np.array(tfidf.get_feature_names())
     return terms[term_tfidf.argsort()[::-1]][:n].tolist()
 
 
-def extract_discriminative_keywords(df: pd.DataFrame,
-                                    category_column: str,
-                                    text_column: str,
-                                    ngram: int = 2,
-                                    n: int = 10) -> pd.DataFrame:
+def extract_discriminative_keywords(
+    df: pd.DataFrame,
+    category_column: str,
+    text_column: str,
+    ngram: int = 2,
+    n: int = 10,
+) -> pd.DataFrame:
     """
     Generate discriminative keywords for texts in each category.
 
@@ -230,23 +232,23 @@ def extract_discriminative_keywords(df: pd.DataFrame,
         Dataframe with categories in columns and top-n keywords in each columns.
     """
     # Combine all texts into a single document for each category
-    category_docs = df.groupby(by=category_column)[text_column].apply(' '.join)
+    category_docs = df.groupby(by=category_column)[text_column].apply(" ".join)
     categories = category_docs.index.tolist()
 
-    tfidf = TfidfVectorizer(ngram_range=(1, ngram),
-                            stop_words='english',
-                            strip_accents='unicode',
-                            sublinear_tf=True)
+    tfidf = TfidfVectorizer(
+        ngram_range=(1, ngram),
+        stop_words="english",
+        strip_accents="unicode",
+        sublinear_tf=True,
+    )
     document_vectors = tfidf.fit_transform(category_docs).A
     keywords = np.array(tfidf.get_feature_names())
     top_terms = document_vectors.argsort(axis=1)[:, :n]
-    return pd.DataFrame(keywords[top_terms].T,
-                        columns=categories)
+    return pd.DataFrame(keywords[top_terms].T, columns=categories)
 
 
 def extract_stopwords(texts: List[str]) -> pd.DataFrame:
     vec = TfidfVectorizer()
     vec.fit(texts)
     word_idf_pairs = zip(vec.get_feature_names(), vec.idf_)
-    return (pd.DataFrame(word_idf_pairs, columns=["word", "idf"])
-            .sort_values(by="idf"))
+    return pd.DataFrame(word_idf_pairs, columns=["word", "idf"]).sort_values(by="idf")

@@ -44,11 +44,10 @@ def array_except_element(arr: List, elem: Any) -> List:
     ```
     """
     elem_index = arr.index(elem)
-    return arr[:elem_index] + arr[elem_index + 1:]
+    return arr[:elem_index] + arr[elem_index + 1 :]
 
 
-def sort_dict_by_value(d: Dict,
-                       reverse: bool = False) -> Dict:
+def sort_dict_by_value(d: Dict, reverse: bool = False) -> Dict:
     """
     Sort items in dictionary by value.
 
@@ -92,8 +91,7 @@ def percent_dict(d: Dict) -> Dict:
         Dictionary of key and percent-coverage
     """
     total = sum(d.values())
-    return {key: value / total * 100.0
-            for key, value in d.items()}
+    return {key: value / total * 100.0 for key, value in d.items()}
 
 
 def top(data, n: int = 5) -> Dict:
@@ -110,8 +108,7 @@ def top(data, n: int = 5) -> Dict:
     return dict(Counter(data).most_common(n))
 
 
-def top_n_from_dict(dictionary: Dict,
-                    n: int = 10):
+def top_n_from_dict(dictionary: Dict, n: int = 10):
     """
     Get top n largest values from the dictionary.
 
@@ -135,14 +132,12 @@ def read_json(json_path: Union[str, Path]) -> Dict:
     Returns:
         Python dictionary
     """
-    with open(json_path, 'r') as fp:
+    with open(json_path, "r") as fp:
         data = json.load(fp)
     return data
 
 
-def write_json(item: Dict,
-               path: Union[Path, str],
-               mode: str = 'w') -> None:
+def write_json(item: Dict, path: Union[Path, str], mode: str = "w") -> None:
     """
     Save json to a file.
 
@@ -168,12 +163,11 @@ def read_pickle(path: Union[str, Path]) -> Any:
     Returns:
         Unpickled object
     """
-    with open(path, 'rb') as fp:
+    with open(path, "rb") as fp:
         return pickle.load(fp)
 
 
-def write_pickle(item: Any,
-                 path: Union[Path, str]) -> None:
+def write_pickle(item: Any, path: Union[Path, str]) -> None:
     """
     Pickle a python object.
 
@@ -184,12 +178,11 @@ def write_pickle(item: Any,
     Returns:
         None
     """
-    with open(path, 'wb') as fp:
+    with open(path, "wb") as fp:
         pickle.dump(item, fp)
 
 
-def parse_manual(parser: argparse.ArgumentParser,
-                 command: str) -> argparse.Namespace:
+def parse_manual(parser: argparse.ArgumentParser, command: str) -> argparse.Namespace:
     """
     Use argument parser in notebooks.
 
@@ -236,8 +229,7 @@ def num_files(path: Union[Path, str]) -> int:
     return len(os.listdir(path))
 
 
-def ngrams(tokens: List,
-           n: int):
+def ngrams(tokens: List, n: int):
     """
 
     Args:
@@ -247,7 +239,7 @@ def ngrams(tokens: List,
     Returns:
         List of ngrams
     """
-    return [tokens[i:i + n] for i in range(len(tokens) - n + 1)]
+    return [tokens[i : i + n] for i in range(len(tokens) - n + 1)]
 
 
 def print_json(d: Dict) -> None:
@@ -274,7 +266,7 @@ def read_as_base64(path: Union[str, Path]) -> str:
         Base64 string
     """
     content = Path(path).read_text()
-    return base64.b64encode(content.encode('utf-8')).decode('utf-8')
+    return base64.b64encode(content.encode("utf-8")).decode("utf-8")
 
 
 def base64_dict(base64_str: str) -> Dict:
@@ -300,11 +292,10 @@ def format_as_hms(seconds: Union[int, float]) -> str:
     Returns:
         String in the format HH:MM:SS
     """
-    return time.strftime('%H:%M:%S', time.gmtime(seconds))
+    return time.strftime("%H:%M:%S", time.gmtime(seconds))
 
 
-def roundup(n: float,
-            m: int = 10) -> int:
+def roundup(n: float, m: int = 10) -> int:
     """
     Round up a number n to the nearest multiple of M.
 
@@ -369,7 +360,7 @@ def generate_edits(word: str, n: int = 1) -> List[str]:
     """
 
     def edits1(word: str):
-        letters = 'abcdefghijklmnopqrstuvwxyz'
+        letters = "abcdefghijklmnopqrstuvwxyz"
         splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
         deletes = [L + R[1:] for L, R in splits if R]
         transposes = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R) > 1]

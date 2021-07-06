@@ -6,6 +6,7 @@ import pandas as pd
 
 def print_markdown(markdown):
     from IPython.display import Markdown, display
+
     display(Markdown(markdown))
 
 
@@ -19,12 +20,11 @@ def print_bullets(lines: List[str]) -> None:
     Returns:
         None
     """
-    bullet_points = '\n'.join(f'- `{line}`' for line in sorted(lines))
+    bullet_points = "\n".join(f"- `{line}`" for line in sorted(lines))
     print_markdown(bullet_points)
 
 
-def print_header(text: str,
-                 level: int = 2) -> None:
+def print_header(text: str, level: int = 2) -> None:
     """
     Display a text as markdown header.
 
@@ -38,10 +38,12 @@ def print_header(text: str,
     print_markdown(f'{"#" * level} {text}')
 
 
-def highlight_phrases(original_text: str,
-                      phrases: Union[List[str], str],
-                      color_palette: str = 'Greens',
-                      weight: float = 0.2) -> None:
+def highlight_phrases(
+    original_text: str,
+    phrases: Union[List[str], str],
+    color_palette: str = "Greens",
+    weight: float = 0.2,
+) -> None:
     """
     Highlight a list of phrases in a text.
 
@@ -59,19 +61,20 @@ def highlight_phrases(original_text: str,
 
     html = original_text
     cmap = matplotlib.cm.get_cmap(color_palette)
-    color = f'rgba{cmap(weight, bytes=True)}'
+    color = f"rgba{cmap(weight, bytes=True)}"
     if type(phrases) is str:
         phrases = [phrases]
     for phrase in phrases:
-        highlighted_phrase = (f'<span style="background-color: {color}; font-weight: {weight * 800};">'
-                              f'{phrase}'
-                              f'</span>')
+        highlighted_phrase = (
+            f'<span style="background-color: {color}; font-weight: {weight * 800};">'
+            f"{phrase}"
+            f"</span>"
+        )
         html = html.replace(phrase, highlighted_phrase)
     display(HTML(f'<p style="color: #444; font-size:1.5em;">{html}</p>'))
 
 
-def filter_column(df: pd.DataFrame,
-                  column_name: str) -> None:
+def filter_column(df: pd.DataFrame, column_name: str) -> None:
     """
     Show an interactive widget to filter a column in dataframe.
 
@@ -84,9 +87,9 @@ def filter_column(df: pd.DataFrame,
     """
 
     from ipywidgets import interact
+
     options = sorted(df[column_name].unique())
-    interact(lambda value: df[df[column_name] == value],
-             value=options)
+    interact(lambda value: df[df[column_name] == value], value=options)
 
 
 def download(file_path) -> None:
@@ -100,16 +103,16 @@ def download(file_path) -> None:
         None
     """
     from IPython.display import Javascript
-    script = f'''
+
+    script = f"""
             var host = window.location.host;
             var downloadLink = window.location.protocol + "//" + host + "/files/{file_path}"
             window.open(downloadLink)
-            '''
+            """
     return Javascript(script)
 
 
-def download_df(df: pd.DataFrame,
-                csv_path=None) -> None:
+def download_df(df: pd.DataFrame, csv_path=None) -> None:
     """
     Download a dataframe as a CSV with a random filename.
 
@@ -123,9 +126,11 @@ def download_df(df: pd.DataFrame,
         None
     """
     from IPython.display import display
+
     if not csv_path:
         from uuid import uuid4
-        csv_path = f'{uuid4()}.csv'
+
+        csv_path = f"{uuid4()}.csv"
     df.to_csv(csv_path, index=False)
     display(download(file_path=csv_path))
     time.sleep(1)
@@ -148,21 +153,19 @@ def search_dataframe(df: pd.DataFrame) -> None:
 
     def _search(query: str, column: str):
         if query:
-            with pd.option_context('display.max_rows', None,
-                                   'display.max_columns', None):
-                filtered_df = df[df[column].str.contains(query,
-                                                         case=False,
-                                                         regex=False)]
+            with pd.option_context(
+                "display.max_rows", None, "display.max_columns", None
+            ):
+                filtered_df = df[
+                    df[column].str.contains(query, case=False, regex=False)
+                ]
                 display(filtered_df)
 
-    string_columns = df.select_dtypes('object').columns.tolist()
-    interact(_search, query='', column=string_columns)
+    string_columns = df.select_dtypes("object").columns.tolist()
+    interact(_search, query="", column=string_columns)
 
 
-def show_examples(df: pd.DataFrame,
-                  group_column: str,
-                  data_column: str,
-                  n: int = 5):
+def show_examples(df: pd.DataFrame, group_column: str, data_column: str, n: int = 5):
     """
     Show random examples for each sub-group in a dataframe.
 
@@ -176,10 +179,11 @@ def show_examples(df: pd.DataFrame,
         Markdown
     """
     from IPython.display import Markdown
+
     generated_text = ""
     for group_name, subset in df.explode(group_column).groupby(group_column):
         examples = subset[data_column].sample(n)
         generated_text += f"## {group_name}\n\n"
-        generated_text += "\n".join([f'- {example}' for example in examples])
-        generated_text += '\n\n'
+        generated_text += "\n".join([f"- {example}" for example in examples])
+        generated_text += "\n\n"
     return Markdown(generated_text)

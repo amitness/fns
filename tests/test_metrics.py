@@ -1,4 +1,9 @@
-from fns.metrics import n_clusters, baseline_accuracy, jaccard, sorted_classification_report
+from fns.metrics import (
+    n_clusters,
+    baseline_accuracy,
+    jaccard,
+    sorted_classification_report,
+)
 
 
 def test_n_clusters():

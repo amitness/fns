@@ -25,7 +25,7 @@ def read_dict(data: Dict) -> pd.DataFrame:
     Returns:
         Pandas DataFrame
     """
-    return pd.DataFrame.from_dict(data, orient='index').transpose()
+    return pd.DataFrame.from_dict(data, orient="index").transpose()
 
 
 def print_groups(df: pd.DataFrame, column: str) -> None:
@@ -40,13 +40,13 @@ def print_groups(df: pd.DataFrame, column: str) -> None:
         None
     """
     for current_group, sub_df in df.groupby(column):
-        print(f'Group: {current_group}')
+        print(f"Group: {current_group}")
         print()
         # Skip group column
         mask = ~(sub_df.columns.isin([column]))
         print(sub_df.loc[:, mask])
         print()
-        print('---' * 25)
+        print("---" * 25)
 
 
 def display_all() -> None:
@@ -57,8 +57,9 @@ def display_all() -> None:
         None
     """
     import pandas as pd
-    pd.set_option('display.max_colwidth', None)
-    pd.set_option('display.max_rows', None)
+
+    pd.set_option("display.max_colwidth", None)
+    pd.set_option("display.max_rows", None)
 
 
 def no_wrapping():
@@ -74,8 +75,7 @@ def no_wrapping():
     Returns:
         Context Manager
     """
-    return pd.option_context('display.max_rows', None,
-                             'display.max_columns', None)
+    return pd.option_context("display.max_rows", None, "display.max_columns", None)
 
 
 def explore_df(df: pd.DataFrame) -> pd.DataFrame:
@@ -93,12 +93,9 @@ def explore_df(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         DataFrame with summary infos
     """
-    null_df = pd.DataFrame(df.isnull().sum(), columns=['num_nulls'])
-    dtype_df = pd.DataFrame(df.dtypes, columns=['dtype'])
-    return (df.T.sample(1, axis=1)
-            .join([dtype_df, null_df])
-            .rename_axis('Columns')
-            )
+    null_df = pd.DataFrame(df.isnull().sum(), columns=["num_nulls"])
+    dtype_df = pd.DataFrame(df.dtypes, columns=["dtype"])
+    return df.T.sample(1, axis=1).join([dtype_df, null_df]).rename_axis("Columns")
 
 
 def is_outlier(values: List) -> List[bool]:
@@ -125,11 +122,13 @@ def is_outlier(values: List) -> List[bool]:
     return (values < lower_threshold) | (values > upper_threshold)
 
 
-def to_excel(path: Union[Path, str],
-             df: pd.DataFrame,
-             sheet_name: str,
-             index: bool = False,
-             mode: str = 'a') -> None:
+def to_excel(
+    path: Union[Path, str],
+    df: pd.DataFrame,
+    sheet_name: str,
+    index: bool = False,
+    mode: str = "a",
+) -> None:
     """
     Add a dataframe to an existing Excel file.
 
@@ -144,6 +143,4 @@ def to_excel(path: Union[Path, str],
         None
     """
     with pd.ExcelWriter(path, mode=mode) as writer:
-        df.to_excel(writer,
-                    sheet_name=sheet_name,
-                    index=index)
+        df.to_excel(writer, sheet_name=sheet_name, index=index)

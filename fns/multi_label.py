@@ -31,6 +31,5 @@ def count_single_label(y_raw: List[List]) -> pd.DataFrame:
     y = binarizer.fit_transform(y_raw)
     label_counts = y.sum(axis=0)
     label_names = binarizer.classes_
-    label_df = pd.DataFrame({'label': label_names,
-                             'count': label_counts})
-    return label_df.sort_values(by='count', ascending=False)
+    label_df = pd.DataFrame({"label": label_names, "count": label_counts})
+    return label_df.sort_values(by="count", ascending=False)

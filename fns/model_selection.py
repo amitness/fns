@@ -3,8 +3,7 @@ from typing import Tuple
 import pandas as pd
 
 
-def train_val_size(dataset,
-                   val_ratio: float = 0.1) -> Tuple[int, int]:
+def train_val_size(dataset, val_ratio: float = 0.1) -> Tuple[int, int]:
     """
     Return the train and validation data sizes based on split ratio.
 
@@ -30,10 +29,8 @@ def view_result_table(cv) -> pd.DataFrame:
     Returns:
         Pandas DataFrame
     """
-    columns = ['params', 'mean_test_score', 'std_test_score', 'rank_test_score']
-    return (pd.DataFrame(cv.cv_results_)[columns]
-            .sort_values(by=['rank_test_score'])
-            )
+    columns = ["params", "mean_test_score", "std_test_score", "rank_test_score"]
+    return pd.DataFrame(cv.cv_results_)[columns].sort_values(by=["rank_test_score"])
 
 
 grid_report = view_result_table

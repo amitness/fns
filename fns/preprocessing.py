@@ -6,12 +6,12 @@ from typing import Dict
 from fns.json_encoders import NpEncoder
 
 # Compiled regular expressions
-_re_space = re.compile(r' {2,}')
-_re_hashtag = re.compile(r'#')
-_re_retweet = re.compile(r'^RT[\s]+')
-_re_hyperlink = re.compile(r'https?:\/\/.*[\r\n]*')
-_re_hyphen_word = re.compile('[a-zA-Z]+-[a-zA-Z]+')
-_re_comma = re.compile(r',{2,}')
+_re_space = re.compile(r" {2,}")
+_re_hashtag = re.compile(r"#")
+_re_retweet = re.compile(r"^RT[\s]+")
+_re_hyperlink = re.compile(r"https?:\/\/.*[\r\n]*")
+_re_hyphen_word = re.compile("[a-zA-Z]+-[a-zA-Z]+")
+_re_comma = re.compile(r",{2,}")
 
 
 def combine_hyphenated_word(text: str) -> str:
@@ -26,8 +26,9 @@ def combine_hyphenated_word(text: str) -> str:
     Returns:
         Processed sentence
     """
-    return ' '.join(w.replace('-', '') if _re_hyphen_word.match(w) else w
-                    for w in text.split())
+    return " ".join(
+        w.replace("-", "") if _re_hyphen_word.match(w) else w for w in text.split()
+    )
 
 
 def remove_hashtag(t: str) -> str:
@@ -40,7 +41,7 @@ def remove_hashtag(t: str) -> str:
     Returns:
         Text without hashtag
     """
-    return _re_hashtag.sub('', t)
+    return _re_hashtag.sub("", t)
 
 
 def remove_retweet(t: str) -> str:
@@ -53,7 +54,7 @@ def remove_retweet(t: str) -> str:
     Returns:
         Text without RT symbol.
     """
-    return _re_retweet.sub('', t)
+    return _re_retweet.sub("", t)
 
 
 def remove_hyperlink(t: str) -> str:
@@ -66,7 +67,7 @@ def remove_hyperlink(t: str) -> str:
     Returns:
         Text without hyperlinks.
     """
-    return _re_hyperlink.sub('', t)
+    return _re_hyperlink.sub("", t)
 
 
 def remove_multiple_space(t: str) -> str:
@@ -81,7 +82,7 @@ def remove_multiple_space(t: str) -> str:
     Returns:
         Text without multiple space.
     """
-    return _re_space.sub(' ', t)
+    return _re_space.sub(" ", t)
 
 
 def remove_multiple_commas(t: str) -> str:
@@ -100,7 +101,7 @@ def remove_multiple_commas(t: str) -> str:
     Returns:
         Text without multiple commas.
     """
-    return _re_comma.sub(',', t)
+    return _re_comma.sub(",", t)
 
 
 def remove_new_lines(text: str) -> str:
@@ -114,7 +115,7 @@ def remove_new_lines(text: str) -> str:
         Text without newline at end.
     """
     if isinstance(text, str):
-        return text.replace('\\n', '').strip()
+        return text.replace("\\n", "").strip()
     return text
 
 
@@ -128,8 +129,8 @@ def remove_separator(text: str) -> str:
     Returns:
 
     """
-    no_separator_regex = re.compile(r'[^a-zA-Z0-9\s]')
-    return no_separator_regex.sub('', text)
+    no_separator_regex = re.compile(r"[^a-zA-Z0-9\s]")
+    return no_separator_regex.sub("", text)
 
 
 def remove_punctuation(text: str) -> str:
@@ -140,7 +141,7 @@ def remove_punctuation(text: str) -> str:
         text: Sentence
 
     """
-    return ''.join(t for t in text if t not in string.punctuation)
+    return "".join(t for t in text if t not in string.punctuation)
 
 
 def normalize_json(json_data: Dict) -> Dict:

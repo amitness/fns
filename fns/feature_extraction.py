@@ -4,7 +4,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 def encode_histogram(text: str) -> np.ndarray:
     histogram = [0.0] * 256
-    for ascii_code in text.encode('utf-8'):
+    for ascii_code in text.encode("utf-8"):
         histogram[ascii_code] += 1
     return np.array(histogram) / len(text)
 
